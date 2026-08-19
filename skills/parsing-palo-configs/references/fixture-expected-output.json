@@ -1,0 +1,167 @@
+{
+  "zones": [
+    {
+      "name": "trust",
+      "interfaces": [
+        "ethernet1/2"
+      ],
+      "zone_type": "layer3"
+    },
+    {
+      "name": "untrust",
+      "interfaces": [
+        "ethernet1/1"
+      ],
+      "zone_type": "layer3"
+    }
+  ],
+  "address_objects": [
+    {
+      "name": "WEB",
+      "type": "host",
+      "value": "10.0.1.10/32"
+    }
+  ],
+  "address_groups": [],
+  "service_objects": [
+    {
+      "name": "HTTPS-ALT",
+      "protocol": "tcp",
+      "port_range": "8443"
+    }
+  ],
+  "service_groups": [],
+  "security_policies": [
+    {
+      "name": "ALLOW-WEB",
+      "src_zones": [
+        "trust"
+      ],
+      "dst_zones": [
+        "untrust"
+      ],
+      "src_addresses": [
+        "any"
+      ],
+      "dst_addresses": [
+        "WEB"
+      ],
+      "applications": [
+        "ssl"
+      ],
+      "apps": [
+        {
+          "vendor_name": "ssl",
+          "canonical": "https",
+          "confidence": 1.0,
+          "category": "web"
+        }
+      ],
+      "services": [
+        "application-default"
+      ],
+      "action": "allow",
+      "_rule_index": 1,
+      "_vsys": "vsys1"
+    },
+    {
+      "name": "Implicit: Intra-zone Allow (trust)",
+      "src_zones": [
+        "trust"
+      ],
+      "dst_zones": [
+        "trust"
+      ],
+      "src_addresses": [
+        "any"
+      ],
+      "dst_addresses": [
+        "any"
+      ],
+      "applications": [
+        "any"
+      ],
+      "services": [],
+      "action": "allow",
+      "disabled": false,
+      "_rule_index": 2,
+      "_implicit": true,
+      "_vsys": "vsys1"
+    },
+    {
+      "name": "Implicit: Intra-zone Allow (untrust)",
+      "src_zones": [
+        "untrust"
+      ],
+      "dst_zones": [
+        "untrust"
+      ],
+      "src_addresses": [
+        "any"
+      ],
+      "dst_addresses": [
+        "any"
+      ],
+      "applications": [
+        "any"
+      ],
+      "services": [],
+      "action": "allow",
+      "disabled": false,
+      "_rule_index": 3,
+      "_implicit": true,
+      "_vsys": "vsys1"
+    },
+    {
+      "name": "default-deny",
+      "src_zones": [
+        "any"
+      ],
+      "dst_zones": [
+        "any"
+      ],
+      "src_addresses": [
+        "any"
+      ],
+      "dst_addresses": [
+        "any"
+      ],
+      "applications": [
+        "any"
+      ],
+      "services": [],
+      "action": "deny",
+      "disabled": false,
+      "_rule_index": 4,
+      "_implicit": true,
+      "_vsys": "vsys1"
+    }
+  ],
+  "nat_rules": [],
+  "applications": [],
+  "application_groups": [],
+  "schedules": [],
+  "security_profile_objects": [],
+  "interfaces": [],
+  "static_routes": [],
+  "virtual_routers": [],
+  "ospf_config": {},
+  "ospf3_config": {},
+  "bgp_config": {},
+  "ha_config": {},
+  "screen_config": [],
+  "vpn_tunnels": [],
+  "syslog_config": [],
+  "dhcp_config": [],
+  "admin_users": [],
+  "system": {},
+  "security_services": {},
+  "routing_contexts": [],
+  "residual_raw": [],
+  "metadata": {
+    "source_vendor": "panos",
+    "warnings": [
+      "application-default preserved explicitly for conversion review"
+    ]
+  }
+}

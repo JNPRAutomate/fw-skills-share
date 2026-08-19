@@ -1,0 +1,139 @@
+{
+  "zones": [
+    {
+      "name": "trust",
+      "interfaces": [
+        "ge-0/0/0.0"
+      ]
+    },
+    {
+      "name": "untrust",
+      "interfaces": [
+        "ge-0/0/1.0"
+      ]
+    }
+  ],
+  "address_objects": [
+    {
+      "name": "WEB",
+      "type": "host",
+      "value": "10.0.1.10/32",
+      "ip_version": "v4"
+    }
+  ],
+  "address_groups": [],
+  "service_objects": [
+    {
+      "name": "APP-HTTPS",
+      "protocol": "tcp",
+      "port_range": "443"
+    }
+  ],
+  "service_groups": [],
+  "security_policies": [
+    {
+      "name": "ALLOW-WEB",
+      "src_zones": [
+        "trust"
+      ],
+      "dst_zones": [
+        "untrust"
+      ],
+      "src_addresses": [
+        "any"
+      ],
+      "dst_addresses": [
+        "WEB"
+      ],
+      "applications": [
+        "APP-HTTPS"
+      ],
+      "services": [
+        "APP-HTTPS"
+      ],
+      "action": "allow",
+      "log_end": true,
+      "_rule_index": 1,
+      "_implicit": false,
+      "apps": [
+        {
+          "vendor_name": "APP-HTTPS",
+          "canonical": "https",
+          "confidence": 0.9,
+          "category": "web"
+        }
+      ]
+    },
+    {
+      "name": "default-deny",
+      "src_zones": [
+        "any"
+      ],
+      "dst_zones": [
+        "any"
+      ],
+      "src_addresses": [
+        "any"
+      ],
+      "dst_addresses": [
+        "any"
+      ],
+      "applications": [
+        "any"
+      ],
+      "services": [],
+      "action": "deny",
+      "disabled": false,
+      "_rule_index": 2,
+      "_implicit": true
+    }
+  ],
+  "nat_rules": [
+    {
+      "name": "PAT",
+      "type": "source",
+      "src_zones": [
+        "trust"
+      ],
+      "dst_zones": [
+        "untrust"
+      ],
+      "src_addresses": [
+        "10.0.0.0/16"
+      ],
+      "translated_src": {
+        "type": "interface"
+      },
+      "_rule_index": 1
+    }
+  ],
+  "applications": [],
+  "application_groups": [],
+  "schedules": [],
+  "security_profile_objects": [],
+  "interfaces": [],
+  "static_routes": [
+    {
+      "destination": "0.0.0.0/0",
+      "next_hop": "203.0.113.1"
+    }
+  ],
+  "virtual_routers": [],
+  "ospf_config": {},
+  "ospf3_config": {},
+  "bgp_config": {},
+  "ha_config": {},
+  "screen_config": [],
+  "vpn_tunnels": [],
+  "syslog_config": [],
+  "dhcp_config": [],
+  "admin_users": [],
+  "system": {},
+  "security_services": {},
+  "routing_contexts": [],
+  "residual_raw": [],
+  "metadata": {
+    "source_vendor": "srx",
+    "warnings": []
+  }
+}

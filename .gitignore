@@ -1,0 +1,31 @@
+
+# MemPalace per-project files (issue #185)
+mempalace.yaml
+entities.json
+
+# Serena project/memory files
+.serena/
+
+# Subagent-driven-development scratch
+.superpowers/
+
+# Python validation artifacts
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+.direnv/
+.venv/
+.ruff_cache/
+.mypy_cache/
+coverage/
+dist/
+build/
+*.agekey
+*.decrypted.*
+
+# Codex isolated worktrees
+.worktrees/
+# Scratch dirs from test scripts whose TemporaryDirectory() lands in cwd
+tmp*/

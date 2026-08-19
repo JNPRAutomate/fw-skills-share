@@ -1,0 +1,75 @@
+# parsing-srx-configs
+
+Claude Code skill for parsing and analyzing **Juniper SRX / Junos** firewall configurations.
+
+## What it does
+
+Detects and parses two config formats:
+1. **Set command format**: `set security zones ...` (from `show configuration | display set`)
+2. **Hierarchical curly-brace format**: Nested blocks with `{ }` and `;` terminators
+
+Extracts:
+
+- Zones and address books
+- Zone-attached address books
+- Address objects (ip-prefix, dns-name, range-address, wildcard-address)
+- Address groups / address-sets
+- Applications and application-sets (with predefined application mapping)
+- Security policies (from-zone/to-zone pairs and global policies)
+- NAT rules (source, destination, static) with port matching and pool-based translations
+- Interfaces (IPv4/IPv6, LAG, DHCP client, VLAN, MTU)
+- System config (hostname, DNS, NTP, admin users)
+- Schedules
+- Static routes, BGP, OSPF/OSPFv3
+- IPv6 static routes
+- Routing instances/VRF
+- HA / chassis cluster configuration
+- MNHA HA detection
+- Screen/IDS protections
+- VPN full IKE/IPsec chain resolution
+- Syslog configuration
+- DHCP server pools and relay
+- Logical-systems and tenant support for multi-context deployments
+- Residual config capture
+- Version detection
+
+## Auto-trigger keywords
+
+`SRX`, `Junos`, `Juniper`, `set security`, `security zones`, `address-book`, `applications`, `security policies`, `from-zone`, `to-zone`, `nat rule-set`, `chassis cluster`, `logical-systems`, `routing-instances`
+
+## Manual invocation
+
+```
+/parsing-srx-configs
+```
+
+## Installation
+
+```bash
+cp -r parsing-srx-configs ~/.claude/skills/
+```
+
+## Security audit checks
+
+- Unused address/service objects
+- Shadowed policies
+- Overly permissive rules
+- Missing logging on permit policies
+- Disabled / deactivated policies
+- Duplicate objects
+- Empty groups
+- Weak VPN algorithms (DES/3DES, MD5, DH ≤ 5)
+
+## File structure
+
+```
+parsing-srx-configs/
+├── SKILL.md                          # Main skill instructions
+└── references/
+    ├── config-format.md              # Vendor config syntax reference
+    ├── intermediate-schema.md        # Vendor-neutral output schema
+    ├── parsing-patterns.md           # Edge cases, port mappings
+    ├── example-sample-parse.md       # Worked example with input/output
+    ├── fixture-minimal-input.md      # Minimal test fixture (input)
+    └── fixture-expected-output.json  # Minimal test fixture (expected output)
+```

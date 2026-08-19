@@ -1,0 +1,153 @@
+{
+  "zones": [
+    {
+      "name": "outside",
+      "interfaces": [
+        "GigabitEthernet0/0"
+      ],
+      "zone_type": "layer3"
+    },
+    {
+      "name": "inside",
+      "interfaces": [
+        "GigabitEthernet0/1"
+      ],
+      "zone_type": "layer3"
+    }
+  ],
+  "address_objects": [
+    {
+      "name": "WEB",
+      "type": "host",
+      "value": "10.0.1.10/32"
+    },
+    {
+      "name": "INSIDE-NET",
+      "type": "subnet",
+      "value": "10.0.0.0/16"
+    }
+  ],
+  "address_groups": [],
+  "service_objects": [
+    {
+      "name": "HTTPS-ALT",
+      "protocol": "tcp",
+      "port_range": "8443"
+    }
+  ],
+  "service_groups": [],
+  "security_policies": [
+    {
+      "name": "OUTSIDE-IN-1",
+      "src_zones": [
+        "outside"
+      ],
+      "dst_zones": [
+        "any"
+      ],
+      "src_addresses": [
+        "any"
+      ],
+      "dst_addresses": [
+        "WEB"
+      ],
+      "services": [
+        "tcp/443"
+      ],
+      "action": "allow",
+      "log_end": true,
+      "_rule_index": 1,
+      "apps": [
+        {
+          "vendor_name": "tcp/443",
+          "canonical": "https",
+          "confidence": 0.9,
+          "category": "web"
+        }
+      ]
+    },
+    {
+      "name": "default-deny",
+      "src_zones": [
+        "outside"
+      ],
+      "dst_zones": [
+        "any"
+      ],
+      "src_addresses": [
+        "any"
+      ],
+      "dst_addresses": [
+        "any"
+      ],
+      "services": [],
+      "action": "deny",
+      "disabled": false,
+      "_rule_index": 2,
+      "_implicit": true
+    }
+  ],
+  "nat_rules": [
+    {
+      "name": "INSIDE-NET-auto-nat",
+      "type": "source",
+      "src_zones": [
+        "inside"
+      ],
+      "dst_zones": [
+        "outside"
+      ],
+      "src_addresses": [
+        "INSIDE-NET"
+      ],
+      "translated_src": {
+        "type": "interface"
+      },
+      "_rule_index": 1
+    }
+  ],
+  "applications": [],
+  "application_groups": [],
+  "schedules": [],
+  "security_profile_objects": [],
+  "interfaces": [
+    {
+      "name": "GigabitEthernet0/0",
+      "zone": "outside",
+      "ip": "203.0.113.2/24"
+    },
+    {
+      "name": "GigabitEthernet0/1",
+      "zone": "inside",
+      "ip": "10.0.0.1/24"
+    }
+  ],
+  "static_routes": [
+    {
+      "destination": "0.0.0.0/0",
+      "next_hop": "203.0.113.1",
+      "interface": "outside"
+    }
+  ],
+  "virtual_routers": [],
+  "ospf_config": {},
+  "ospf3_config": {},
+  "bgp_config": {},
+  "ha_config": {},
+  "screen_config": [],
+  "vpn_tunnels": [],
+  "syslog_config": [],
+  "dhcp_config": [],
+  "admin_users": [],
+  "system": {},
+  "security_services": {},
+  "routing_contexts": [],
+  "residual_raw": [],
+  "metadata": {
+    "source_vendor": "cisco_asa",
+    "warnings": [
+      "ACL destination zone may require route/interface resolution beyond access-group binding",
+      "no ACL bound on inside \u2014 security-level high-to-low permit applies"
+    ]
+  }
+}
