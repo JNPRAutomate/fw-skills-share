@@ -86,10 +86,12 @@ in the discovery surface. How much that costs depends on the runtime and version
 Codex 0.147.0 routes discovery through a dynamic selector and treats a flat
 concatenated list as a fallback, truncating metadata to fit its budget rather than
 failing — so the direct token cost is modest and not worth optimizing: all 29
-descriptions together are only ~8,400 characters. The cost that matters is
-**selection**: the more overlapping descriptions compete, the likelier your agent
-reaches for a near-miss instead of the right skill, and truncation degrades that
-quietly rather than visibly. Install the families you actually use.
+descriptions together are a few thousand characters, and
+`scripts/check-skill-packages.py` reports the current figure rather than this page
+pinning a number that goes stale. The cost that matters is **selection**: the more
+overlapping descriptions compete, the likelier your agent reaches for a near-miss
+instead of the right skill, and truncation degrades that quietly rather than
+visibly. Install the families you actually use.
 
 **Skills are copied, not linked.** The installer copies files into your skills
 directory, so they do not change when this repository does. Re-run the installer to
@@ -200,7 +202,7 @@ Actionable Junos playbooks — commands, design guidance, verification, troubles
 - **[srx-dynamic-ip-feed](./skills/srx-dynamic-ip-feed/SKILL.md)** — Dynamic IP objects from HTTPS feed servers: `.tgz` bundles, cert validation, basic-auth / mTLS, `ipfd` log interpretation.
 - **[srx-license-signature-maintenance](./skills/srx-license-signature-maintenance/SKILL.md)** — AppID and IDP/IPS entitlement audit, license installation, and offline signature updates behind two independent approval gates, with secret-safe license handling, per-node chassis-cluster verification, pilot-then-batch rollout, and condition-based polling.
 - **[srx-initial-setup](./skills/srx-initial-setup/SKILL.md)** — *(v1.4.0)* First-time SRX bring-up: read-only entry-state assessment, Branch factory-default handling, management plane, interfaces and zones, starter screens, a minimal baseline policy, and an entitlement readout that routes onward. Every device write runs under a per-stage gate and confirmed commit.
-- **[srx-syslog-logging](./skills/srx-syslog-logging/SKILL.md)** — *(v1.0.0, not yet reviewed)* External syslog and SIEM delivery: the Routing Engine vs PFE logging split, choosing a source interface per log type, the `fxp0` and `mgmt_junos` rules, Security Director Cloud onboarding, and why a non-default syslog port can be discarded silently.
+- **[srx-syslog-logging](./skills/srx-syslog-logging/SKILL.md)** — *(v1.1.0, live-validated 2026-09-12; independent review still open)* External syslog and SIEM delivery: the Routing Engine vs PFE logging split, choosing a source interface per log type, the `fxp0` and `mgmt_junos` rules, Security Director Cloud onboarding, and why a non-default syslog port can be discarded silently.
 
 ### Cross-vendor tooling
 
@@ -260,17 +262,17 @@ cd fwskillsshare
 Flags:
 
 ```text
---all                 Install all 24 skills
---skill NAME          Install a specific skill (repeatable)
---family NAME         parsers | srx | tooling | compliance | deployment (repeatable)
+--all                 Select all 29 skills
+--skill NAME          Select a specific skill by name (repeatable)
+--family NAME         Select a whole family: parsers | srx | tooling | compliance | deployment (repeatable)
 --target WHERE        claude | codex | hermes | both | all
-                      (`both` keeps the legacy Claude+Hermes meaning; default: prompt, or claude with -y)
+                      ('both' means Claude+Hermes; default: interactive prompt, or claude with -y)
 --dir PATH            Explicit install directory (overrides --target)
---list                List the skill inventory and exit
---uninstall           Remove the selected skills instead of installing
+--list                Print the skill inventory (grouped by family) and exit
+--uninstall           Remove the selected skills from the selected target(s) instead of installing
 --force               Overwrite existing skill directories without prompting
--y, --yes             Non-interactive; assume defaults
--h, --help            Show help
+-y, --yes             Non-interactive; assume defaults, no prompts
+-h, --help            Show help and exit
 ```
 
 Examples:
