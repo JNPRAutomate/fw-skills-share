@@ -3,7 +3,7 @@
 <p align="center"><strong>Firewall skills for network &amp; security engineers</strong></p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-29-informational">
+  <img alt="skills" src="https://img.shields.io/badge/skills-31-informational">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-informational">
   <img alt="vendors" src="https://img.shields.io/badge/vendors-Cisco%20%C2%B7%20Fortinet%20%C2%B7%20Palo%20Alto%20%C2%B7%20Juniper%20%C2%B7%20HPE%20Aruba-informational">
 </p>
@@ -12,7 +12,7 @@ Agent skills for the firewall work you actually do — parsing, auditing, conver
 
 Firewall work is unforgiving. A confidently wrong `access-list` line, a Junos stanza that won't commit, a compliance claim you can't back up in an audit — these aren't cosmetic. Coding agents are astonishingly good at producing *plausible* firewall config and astonishingly bad at knowing when it's wrong.
 
-These skills exist to close that gap. They pin the agent to vendor syntax that's been checked against real devices, to one shared schema so four vendors speak the same language, and to control-to-evidence maps that don't overpromise. They're small, self-contained, and composable — copy the two you need or all 29. Hack around with them. Make them your own.
+These skills exist to close that gap. They pin the agent to vendor syntax that's been checked against real devices, to one shared schema so four vendors speak the same language, and to control-to-evidence maps that don't overpromise. They're small, self-contained, and composable — copy the two you need or all 31. Hack around with them. Make them your own.
 
 > **Community project.** Not affiliated with, endorsed by, or supported by Cisco, Fortinet, or Palo Alto Networks. See [License and Provenance](#license-and-provenance) for the full notice and the trademark disclaimer.
 
@@ -85,8 +85,8 @@ invoked, so what an installed-but-unused skill costs you is its description sitt
 in the discovery surface. How much that costs depends on the runtime and version —
 Codex 0.147.0 routes discovery through a dynamic selector and treats a flat
 concatenated list as a fallback, truncating metadata to fit its budget rather than
-failing — so the direct token cost is modest and not worth optimizing: all 29
-descriptions together are a few thousand characters, and
+failing — so the direct token cost is modest and not worth optimizing: all 31
+descriptions together are on the order of ten thousand characters, and
 `scripts/check-skill-packages.py` reports the current figure rather than this page
 pinning a number that goes stale. The cost that matters is **selection**: the more
 overlapping descriptions compete, the likelier your agent reaches for a near-miss
@@ -173,7 +173,7 @@ Firewall fundamentals don't get easier in the AI age — the blast radius just g
 
 ## Reference
 
-**29 skills** across five families. All of them are **model-invoked** — the agent reaches for them automatically when it sees vendor keywords, an SRX operational topic, a Security Director On-Prem or ClearPass deployment request, or compliance language in your message or a pasted config. 26 of the 29 packages have completed the review record below; `clearpass-proxmox-deploy` is a draft and `parsing-firepower-configs` and `srx-syslog-logging` have not yet been reviewed. Invoke one explicitly as `/srx-nat` in Claude Code or Hermes, or `$srx-nat` in Codex.
+**31 skills** across five families. All of them are **model-invoked** — the agent reaches for them automatically when it sees vendor keywords, an SRX operational topic, a Security Director On-Prem or ClearPass deployment request, or compliance language in your message or a pasted config. 26 of the 31 packages have completed the review record below; `clearpass-proxmox-deploy`, `csrx-proxmox-deploy`, and `srx-ips` ship as drafts, while `parsing-firepower-configs` and `srx-syslog-logging` have not yet been through the two-stage review. Invoke one explicitly as `/srx-nat` in Claude Code or Hermes, or `$srx-nat` in Codex.
 
 Extended notes on the compliance and SRX playbooks — what they cover and when to reach for one — are in **[SKILLS.md](./SKILLS.md)**. Every skill also documents itself in its own `SKILL.md`, linked above.
 
@@ -191,7 +191,7 @@ Normalize a vendor config into the shared intermediate schema. Everything else c
 
 Actionable Junos playbooks — commands, design guidance, verification, troubleshooting matrices, source attribution.
 
-- **[srx-policy](./skills/srx-policy/SKILL.md)** — Enforced global-policy output with explicit zone-pair opt-outs on 23.x+, AppID/AppFW, NGWF-first web filtering, SecIntel, ATP, hit-count troubleshooting.
+- **[srx-policy](./skills/srx-policy/SKILL.md)** — *(v1.3.0)* Enforced global-policy output with explicit zone-pair opt-outs on 23.x+, now including Branch SRX300/SRX400 after hardware validation, AppID/AppFW, NGWF-first web filtering, SecIntel, ATP, hit-count troubleshooting.
 - **[srx-nat](./skills/srx-nat/SKILL.md)** — Source/destination/static NAT, NAT64/DNS64, CGN/PBA, persistent NAT, hairpin, proxy-ARP, session verification.
 - **[srx-mnha](./skills/srx-mnha/SKILL.md)** — Multi-Node High Availability: routed/default-gateway/hybrid modes, SRGs, ICL/ICD, eBGP/BFD failover, VIPs, DHCP caveats.
 - **[srx-advpn](./skills/srx-advpn/SKILL.md)** — Auto Discovery VPN dynamic spoke-to-spoke shortcuts, suggester/partner roles, multipoint st0, OSPF p2mp, the cert-auth requirement and the `No public key found` fix.
@@ -202,6 +202,7 @@ Actionable Junos playbooks — commands, design guidance, verification, troubles
 - **[srx-dynamic-ip-feed](./skills/srx-dynamic-ip-feed/SKILL.md)** — Dynamic IP objects from HTTPS feed servers: `.tgz` bundles, cert validation, basic-auth / mTLS, `ipfd` log interpretation.
 - **[srx-license-signature-maintenance](./skills/srx-license-signature-maintenance/SKILL.md)** — AppID and IDP/IPS entitlement audit, license installation, and offline signature updates behind two independent approval gates, with secret-safe license handling, per-node chassis-cluster verification, pilot-then-batch rollout, and condition-based polling.
 - **[srx-initial-setup](./skills/srx-initial-setup/SKILL.md)** — *(v1.4.0)* First-time SRX bring-up: read-only entry-state assessment, Branch factory-default handling, management plane, interfaces and zones, starter screens, a minimal baseline policy, and an entitlement readout that routes onward. Every device write runs under a per-stage gate and confirmed commit.
+- **[srx-ips](./skills/srx-ips/SKILL.md)** — *(v0.1.0, draft)* IPS detection triage and custom signature authoring: build the active rule table, read logs safely, monitor-to-enforce escalation behind an approval gate, and custom signature design with read-only coverage checks, context/direction/binding choice, false-positive-aware patterns, `commit check` validation, and monitor-mode proof before enforcement.
 - **[srx-syslog-logging](./skills/srx-syslog-logging/SKILL.md)** — *(v1.1.0, live-validated 2026-09-12; independent review still open)* External syslog and SIEM delivery: the Routing Engine vs PFE logging split, choosing a source interface per log type, the `fxp0` and `mgmt_junos` rules, Security Director Cloud onboarding, and why a non-default syslog port can be discarded silently.
 
 ### Cross-vendor tooling
@@ -230,14 +231,16 @@ Install with `--family deployment`.
 
 - **[clearpass-proxmox-deploy](./skills/clearpass-proxmox-deploy/SKILL.md)** — *(v0.2.0, draft)* Deploy, validate, and bring into service HPE Aruba ClearPass Policy Manager 6.14 as a Proxmox VE KVM guest, including CLABV/C1000V/C2000V/C3000V sizing, the mandatory UEFI firmware and pre-boot second disk, MAC-ordered management interface mapping, CRC-verified streaming of the 45 GiB raw image, driving the VGA-only first-boot wizard through the QEMU monitor, and day-2 operations — license order and artifact formats, HTTPS certificate import via the Trust List, and the REST API's retrievable-token/unretrievable-secret split.
 - **[sd-onprem-proxmox-deploy](./skills/sd-onprem-proxmox-deploy/SKILL.md)** — Plan, deploy, validate, and troubleshoot Juniper Security Director On-Prem 25/26 as a Proxmox VE guest from the vendor KVM artifacts, including sizing, four-IP planning, first-boot seed configuration, NTP/DNS reachability, SRX onboarding behind a device-clock NTP sync gate, and mandatory source-identical routing, bundle, device-channel, and TLS log-path proof before VM creation.
+- **[csrx-proxmox-deploy](./skills/csrx-proxmox-deploy/SKILL.md)** — *(v0.1.0, draft)* Deploy a Juniper cSRX container firewall as a Docker workload on a Proxmox VE KVM guest in secure-wire and routing forwarding modes, including the mandatory host-CPU-passthrough and macvlan-passthru gates, checksum-offload and syslog traps, the CSRX_* environment-variable surface and how to re-derive it per release, cSRX-vs-vSRX CLI gaps, the observed secure-wire/routing performance envelope, and an unverified cRPD integration finding.
 
 ---
 
 ## Quality and Review
 
-**26 of the 29 skills** have passed independent technical review. The exceptions
-are `clearpass-proxmox-deploy`, which ships as a draft, and `parsing-firepower-configs`
-and `srx-syslog-logging`, which have not yet been through the two-stage review. Four review rounds, the
+**26 of the 31 skills** have passed independent technical review. The exceptions
+are `clearpass-proxmox-deploy`, `csrx-proxmox-deploy`, and `srx-ips`, which ship as drafts,
+while `parsing-firepower-configs` and `srx-syslog-logging` have not yet been through
+the two-stage review. Four review rounds, the
 live-device validation runs, what those runs falsified, and the per-family table
 are recorded in **[QUALITY.md](./QUALITY.md)**.
 
@@ -262,7 +265,7 @@ cd fwskillsshare
 Flags:
 
 ```text
---all                 Select all 29 skills
+--all                 Select all 31 skills
 --skill NAME          Select a specific skill by name (repeatable)
 --family NAME         Select a whole family: parsers | srx | tooling | compliance | deployment (repeatable)
 --target WHERE        claude | codex | hermes | both | all
