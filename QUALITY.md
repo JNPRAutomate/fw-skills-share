@@ -2,8 +2,8 @@
 
 Round-by-round review history for the skills in this repository. Summary and caveat live in the [README](./README.md#quality-and-review).
 
-**26 of the 31 skills** have passed independent technical review. The exceptions
-are `clearpass-proxmox-deploy`, `csrx-proxmox-deploy`, and `srx-ips`, which ship as drafts,
+**26 of the 32 skills** have passed independent technical review. The exceptions
+are `clearpass-proxmox-deploy`, `csrx-proxmox-deploy`, `srx-ips`, and `srx-mnha-builder`, which ship as drafts,
 while `parsing-firepower-configs` and `srx-syslog-logging` have not yet been through the
 two-stage review described below. The original 21
 were first reviewed on 2026-06-30, then re-reviewed on 2026-07-02 with a
@@ -26,11 +26,11 @@ The 26th skill, `srx-initial-setup`, was validated on 2026-08-25 by execution ra
 | Family | Skills | Reviewed |
 |--------|-------:|:--------:|
 | Config parsers | 5 | 4 / 5 |
-| SRX operational playbooks | 13 | 11 / 13 |
+| SRX operational playbooks | 14 | 11 / 14 |
 | NGFW compliance and STIG playbooks | 7 | 7 / 7 |
 | Cross-vendor tooling (audit · convert · diff) | 3 | 3 / 3 |
 | Security management and NAC deployment | 3 | 1 / 3 |
-| **Total** | **31** | **26 / 31** |
+| **Total** | **32** | **26 / 32** |
 
 The later `srx-disa-stig-compliance` addition completed an independent review on
 2026-07-22. That review verified the NIST checklist 657 / DISA Y25M01 artifact,
@@ -55,7 +55,7 @@ On **2026-07-31** `firewall-best-practices-audit` and `parsing-srx-configs` were
 re-validated against **live** SRX devices over NETCONF (read-only), covering a
 policy-light standalone vSRX and a 101-policy two-node chassis cluster. The run
 is documented in
-[the live SRX audit](https://github.com/fastrevmd-lab/fwskillsshare/blob/main/docs/skill-tests/2026-07-31-firewall-best-practices-audit-live-srx.md)
+[the live SRX audit](https://github.com/mechubsec/fwskillsshare/blob/main/docs/skill-tests/2026-07-31-firewall-best-practices-audit-live-srx.md)
 and found two real defects, both since fixed: `security dynamic-address` objects
 were not extracted (producing false `SEC-ORPHAN-REF` on every GeoIP or
 feed-backed reference), and `match dynamic-application` was dropped (collapsing
@@ -73,7 +73,7 @@ and its own behavioral contract validation
 (`scripts/check-srx-license-signature-contract.py`), a five-reviewer independent
 pass, and a read-only fleet audit across 9 devices / 10 node records on Junos
 24.4R1.9, 25.4R1.12, and 26.2R1.7 —
-[documented here](https://github.com/fastrevmd-lab/fwskillsshare/blob/main/docs/skill-tests/2026-08-05-srx-license-signature-live-validation.md).
+[documented here](https://github.com/mechubsec/fwskillsshare/blob/main/docs/skill-tests/2026-08-05-srx-license-signature-live-validation.md).
 
 That live run earned its keep. On a two-node cluster it caught the nodes
 **disagreeing** — AppID package installed on the secondary, absent on the

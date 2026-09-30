@@ -3,7 +3,8 @@
 <p align="center"><strong>Firewall skills for network &amp; security engineers</strong></p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-31-informational">
+  <img alt="skills" src="https://img.shields.io/badge/skills-32-informational">
+  <img alt="reviewed" src="https://img.shields.io/badge/reviewed-26%2F32-informational">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-informational">
   <img alt="vendors" src="https://img.shields.io/badge/vendors-Cisco%20%C2%B7%20Fortinet%20%C2%B7%20Palo%20Alto%20%C2%B7%20Juniper%20%C2%B7%20HPE%20Aruba-informational">
 </p>
@@ -12,7 +13,7 @@ Agent skills for the firewall work you actually do — parsing, auditing, conver
 
 Firewall work is unforgiving. A confidently wrong `access-list` line, a Junos stanza that won't commit, a compliance claim you can't back up in an audit — these aren't cosmetic. Coding agents are astonishingly good at producing *plausible* firewall config and astonishingly bad at knowing when it's wrong.
 
-These skills exist to close that gap. They pin the agent to vendor syntax that's been checked against real devices, to one shared schema so four vendors speak the same language, and to control-to-evidence maps that don't overpromise. They're small, self-contained, and composable — copy the two you need or all 31. Hack around with them. Make them your own.
+These skills exist to close that gap. They pin the agent to vendor syntax that's been checked against real devices, to one shared schema so four vendors speak the same language, and to control-to-evidence maps that don't overpromise. They're small, self-contained, and composable — copy the two you need or all 32. Hack around with them. Make them your own.
 
 > **Community project.** Not affiliated with, endorsed by, or supported by Cisco, Fortinet, or Palo Alto Networks. See [License and Provenance](#license-and-provenance) for the full notice and the trademark disclaimer.
 
@@ -85,7 +86,7 @@ invoked, so what an installed-but-unused skill costs you is its description sitt
 in the discovery surface. How much that costs depends on the runtime and version —
 Codex 0.147.0 routes discovery through a dynamic selector and treats a flat
 concatenated list as a fallback, truncating metadata to fit its budget rather than
-failing — so the direct token cost is modest and not worth optimizing: all 31
+failing — so the direct token cost is modest and not worth optimizing: all 32
 descriptions together are on the order of ten thousand characters, and
 `scripts/check-skill-packages.py` reports the current figure rather than this page
 pinning a number that goes stale. The cost that matters is **selection**: the more
@@ -105,11 +106,19 @@ in production.
 
 ## Quickstart (30-second setup)
 
-1. Run the installer and pick what you want:
+1. Clone a tagged release and run the installer:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/JNPRAutomate/fw-skills-share/main/install.sh | bash
+git clone --branch v1.9.0 --depth 1 https://github.com/JNPRAutomate/fw-skills-share.git
+cd fwskillsshare
+./install.sh
 ```
+
+`install.sh` verifies every skill file against `skills/CHECKSUMS.sha256` before
+installing anything, and refuses to run against a branch or `HEAD` — only a
+release tag (`vX.Y.Z`). Piping the script straight from `curl` into `bash` is
+not offered: that pattern runs whatever `main` currently contains, with no
+checksum possible before execution.
 
 2. Choose your skills (space/numbers to toggle, `a` for all) and where to install them — **Claude Code** (`~/.claude/skills/`), **Codex** (`~/.agents/skills/`), **Hermes**, or all three.
 
@@ -173,7 +182,7 @@ Firewall fundamentals don't get easier in the AI age — the blast radius just g
 
 ## Reference
 
-**31 skills** across five families. All of them are **model-invoked** — the agent reaches for them automatically when it sees vendor keywords, an SRX operational topic, a Security Director On-Prem or ClearPass deployment request, or compliance language in your message or a pasted config. 26 of the 31 packages have completed the review record below; `clearpass-proxmox-deploy`, `csrx-proxmox-deploy`, and `srx-ips` ship as drafts, while `parsing-firepower-configs` and `srx-syslog-logging` have not yet been through the two-stage review. Invoke one explicitly as `/srx-nat` in Claude Code or Hermes, or `$srx-nat` in Codex.
+**32 skills** across five families. All of them are **model-invoked** — the agent reaches for them automatically when it sees vendor keywords, an SRX operational topic, a Security Director On-Prem or ClearPass deployment request, or compliance language in your message or a pasted config. 26 of the 32 packages have completed the review record below; `clearpass-proxmox-deploy`, `csrx-proxmox-deploy`, `srx-ips`, and `srx-mnha-builder` ship as drafts, while `parsing-firepower-configs` and `srx-syslog-logging` have not yet been through the two-stage review. Invoke one explicitly as `/srx-nat` in Claude Code or Hermes, or `$srx-nat` in Codex.
 
 Extended notes on the compliance and SRX playbooks — what they cover and when to reach for one — are in **[SKILLS.md](./SKILLS.md)**. Every skill also documents itself in its own `SKILL.md`, linked above.
 
@@ -193,7 +202,9 @@ Actionable Junos playbooks — commands, design guidance, verification, troubles
 
 - **[srx-policy](./skills/srx-policy/SKILL.md)** — *(v1.3.0)* Enforced global-policy output with explicit zone-pair opt-outs on 23.x+, now including Branch SRX300/SRX400 after hardware validation, AppID/AppFW, NGWF-first web filtering, SecIntel, ATP, hit-count troubleshooting.
 - **[srx-nat](./skills/srx-nat/SKILL.md)** — Source/destination/static NAT, NAT64/DNS64, CGN/PBA, persistent NAT, hairpin, proxy-ARP, session verification.
+- **[srx-ips](./skills/srx-ips/SKILL.md)** — *(v0.1.1, draft)* IPS detection triage and custom signature authoring through a Junos MCP server: build the active rule table, read logs safely, monitor-to-enforce escalation behind an approval gate, and custom signature design with read-only coverage checks, context/direction/binding choice, false-positive-aware patterns, `commit check` validation, and monitor-mode proof before enforcement.
 - **[srx-mnha](./skills/srx-mnha/SKILL.md)** — Multi-Node High Availability: routed/default-gateway/hybrid modes, SRGs, ICL/ICD, eBGP/BFD failover, VIPs, DHCP caveats.
+- **[srx-mnha-builder](./skills/srx-mnha-builder/SKILL.md)** — *(v0.1.0, draft)* Build a new two-node MNHA pair end-to-end through a Junos MCP server (Juniper junos-mcp-server or rust-junosmcp): routing, switching, or hybrid mode selection, dedicated or shared and optionally encrypted ICL, one pair sheet used to write per-node staged configs from a stage reference and checked against a pre-push checklist, with pre-computed undo files, device dry runs, per-stage approval gates, the user-performed HA-activation reboot, formation checks, eBGP signal-route export, and a role-consistency failover test. Works with either MCP server.
 - **[srx-advpn](./skills/srx-advpn/SKILL.md)** — Auto Discovery VPN dynamic spoke-to-spoke shortcuts, suggester/partner roles, multipoint st0, OSPF p2mp, the cert-auth requirement and the `No public key found` fix.
 - **[srx-autovpn-full-tunnel](./skills/srx-autovpn-full-tunnel/SKILL.md)** — AutoVPN hub-and-spoke full-tunnel backhaul: dynamic `group-ike-id`, traffic selectors + ARI, shared st0.0, anti-recursion route.
 - **[srx-ipsec-hub-spoke](./skills/srx-ipsec-hub-spoke/SKILL.md)** — Static point-to-point route-based IPsec hub-and-spoke, one explicit tunnel per spoke, hub source-NAT egress, spoke-to-spoke hairpin.
@@ -202,7 +213,6 @@ Actionable Junos playbooks — commands, design guidance, verification, troubles
 - **[srx-dynamic-ip-feed](./skills/srx-dynamic-ip-feed/SKILL.md)** — Dynamic IP objects from HTTPS feed servers: `.tgz` bundles, cert validation, basic-auth / mTLS, `ipfd` log interpretation.
 - **[srx-license-signature-maintenance](./skills/srx-license-signature-maintenance/SKILL.md)** — AppID and IDP/IPS entitlement audit, license installation, and offline signature updates behind two independent approval gates, with secret-safe license handling, per-node chassis-cluster verification, pilot-then-batch rollout, and condition-based polling.
 - **[srx-initial-setup](./skills/srx-initial-setup/SKILL.md)** — *(v1.4.0)* First-time SRX bring-up: read-only entry-state assessment, Branch factory-default handling, management plane, interfaces and zones, starter screens, a minimal baseline policy, and an entitlement readout that routes onward. Every device write runs under a per-stage gate and confirmed commit.
-- **[srx-ips](./skills/srx-ips/SKILL.md)** — *(v0.1.0, draft)* IPS detection triage and custom signature authoring: build the active rule table, read logs safely, monitor-to-enforce escalation behind an approval gate, and custom signature design with read-only coverage checks, context/direction/binding choice, false-positive-aware patterns, `commit check` validation, and monitor-mode proof before enforcement.
 - **[srx-syslog-logging](./skills/srx-syslog-logging/SKILL.md)** — *(v1.1.0, live-validated 2026-09-12; independent review still open)* External syslog and SIEM delivery: the Routing Engine vs PFE logging split, choosing a source interface per log type, the `fxp0` and `mgmt_junos` rules, Security Director Cloud onboarding, and why a non-default syslog port can be discarded silently.
 
 ### Cross-vendor tooling
@@ -237,8 +247,8 @@ Install with `--family deployment`.
 
 ## Quality and Review
 
-**26 of the 31 skills** have passed independent technical review. The exceptions
-are `clearpass-proxmox-deploy`, `csrx-proxmox-deploy`, and `srx-ips`, which ship as drafts,
+**26 of the 32 skills** have passed independent technical review. The exceptions
+are `clearpass-proxmox-deploy`, `csrx-proxmox-deploy`, `srx-ips`, and `srx-mnha-builder`, which ship as drafts,
 while `parsing-firepower-configs` and `srx-syslog-logging` have not yet been through
 the two-stage review. Four review rounds, the
 live-device validation runs, what those runs falsified, and the per-family table
@@ -250,27 +260,30 @@ These are research/operational and assessment-support skills, not certified prod
 
 ### Installer (recommended)
 
-The [`install.sh`](./install.sh) installer runs interactively when piped from curl, or with flags for scripted/non-interactive use:
+Clone a tagged release and run [`install.sh`](./install.sh) — interactively, or
+with flags for scripted/non-interactive use. The installer only accepts a
+release tag (`vX.Y.Z`), never a branch or `HEAD`, and verifies every skill file
+against `skills/CHECKSUMS.sha256` before installing anything:
 
 ```bash
-# Interactive: pick skills + target
-curl -fsSL https://raw.githubusercontent.com/JNPRAutomate/fw-skills-share/main/install.sh | bash
-
-# Or from a clone
-git clone git@github.com:JNPRAutomate/fw-skills-share.git
+git clone --branch v1.9.0 --depth 1 https://github.com/JNPRAutomate/fw-skills-share.git
 cd fwskillsshare
+
+# Interactive: pick skills + target
 ./install.sh
 ```
 
 Flags:
 
 ```text
---all                 Select all 31 skills
+--all                 Select all 32 skills
 --skill NAME          Select a specific skill by name (repeatable)
 --family NAME         Select a whole family: parsers | srx | tooling | compliance | deployment (repeatable)
 --target WHERE        claude | codex | hermes | both | all
                       ('both' means Claude+Hermes; default: interactive prompt, or claude with -y)
 --dir PATH            Explicit install directory (overrides --target)
+--ref TAG             Release tag to install from when downloading skills without a local clone
+                      (default: the tag pinned in install.sh). Must be vX.Y.Z; branches and HEAD are refused.
 --list                Print the skill inventory (grouped by family) and exit
 --uninstall           Remove the selected skills from the selected target(s) instead of installing
 --force               Overwrite existing skill directories without prompting
@@ -293,10 +306,11 @@ Examples:
 
 ### Manual install
 
-The skills are plain directories — copy the ones you want:
+The skills are plain directories — copy the ones you want. Pin a release tag
+rather than the default branch so you know exactly what you're copying:
 
 ```bash
-git clone git@github.com:JNPRAutomate/fw-skills-share.git
+git clone --branch v1.9.0 --depth 1 git@github.com:JNPRAutomate/fw-skills-share.git
 
 # All of them
 cp -r fwskillsshare/skills/* ~/.claude/skills/
@@ -467,9 +481,11 @@ and is not relicensed by this repository.
 Unless you explicitly state otherwise, contributions intentionally submitted for
 inclusion in this repository are licensed under the MIT License.
 
+See [CONTRIBUTORS.md](CONTRIBUTORS.md) for the list of maintainers and contributors.
+
 ---
 
 <p align="center">
   <sub>MIT licensed · deterministic decides · the model explains · a human approves<br>
-  Derived from the upstream project at <a href="https://github.com/fastrevmd-lab/fwskillsshare">fastrevmd-lab/fwskillsshare</a>.</sub>
+  Derived from the upstream project at <a href="https://github.com/mechubsec/fwskillsshare">mechubsec/fwskillsshare</a>.</sub>
 </p>

@@ -1,5 +1,46 @@
 # Changelog
 
+## Unreleased
+
+- **Publishing:** never leave bytecode in the staged export tree; gate() now fails-closed on any .pyc or __pycache__.
+- **Publishing:** the JNPR downstream keeps its own secret-scan workflow; rust-junosmcp is named without its org.
+- **Contributors:** added top-level `CONTRIBUTORS.md` listing the maintainer and contributors, linked from README and CONTRIBUTING.
+- **Publishing:** `.gitleaks-vendor.toml` is now published alongside `.gitleaks.toml` so the downstream secret scan can load its vendor rules; the gate now fails if any published gitleaks config extends a file that is not present.
+
+## 1.9.0 — SRX MNHA pair builder; skills work with any Junos MCP server
+
+New draft skill **srx-mnha-builder** (#83, reworked in #84 and #86), and `srx-ips` no longer tied to one MCP server (#85). The catalog grows from 31 to 32 skills.
+
+- **Skills are Markdown only.** `install.sh` is the only executable shipped to users; see `AGENTS.md`. The scripts in `clearpass-proxmox-deploy` and `sd-onprem-proxmox-deploy` are grandfathered and tracked for removal in `TODO.md`.
+- **Repaired #83 merge damage:** restored the 1.8.0 release notes and the LF endings of `scripts/test-runtime-intake-validator.py`.
+
+**srx-mnha-builder** v0.1.0 (renamed from `srx-mnha-mcp-builder` before first release), a draft skill that builds a new two-node SRX/vSRX Multi-Node High Availability pair end-to-end through a Junos MCP server (Juniper junos-mcp-server or rust-junosmcp). Contributed by Javier Grizzuti (@jgrizzuti) from lab work. The catalog gains one skill, from 31 to 32. Design theory and troubleshooting of a running pair stay in `srx-mnha`; this skill covers the build order and works with either MCP server.
+
+**srx-mnha** v1.3.2 corrects the claim that SRG interface monitoring requires a monitor-object; the bare `monitor interface` form commit-checks on vSRX 26.2R1.7.
+
+- Mode selection (routing, switching/default-gateway, hybrid) and ICL choice (dedicated or shared loopback, optionally encrypted with HA link encryption) during setup; the ICL pre-shared key is set by the user on each node and never passes through the pair sheet, chat, or MCP. Design content defers to `srx-mnha` to avoid duplication.
+- One pair sheet used to write per-node stage files from a Markdown stage reference (`references/config-stages.md`) with substituted placeholders (underlay, HA stanza in the flat ≤24.x or grid 26.x model, eBGP signal-route export) plus undo files computed against the device baseline, with a pre-push checklist that blocks management-plane changes, broad host-inbound permissions, a missing ICL BFD permit, a missing activeness probe in routing mode, and export terms without route filters.
+- Device dry runs of each stage, separate approval gates for the push, the HA-activation reboot (performed by the user), eBGP, and the failover test.
+- Verification reference with formation pass criteria, a diagnostic tree for dual-ACTIVE or Conn State DOWN, and a role-consistency invariant (SRG1 role, VIP, signal route, upstream path selection) re-checked after every failover.
+- Server capability mapping: each workflow step (dry run, push, confirm commit, diff, batch commands) mapped to both Juniper junos-mcp-server and rust-junosmcp tools, with commit confirmed and change-set flow where the server supports them.
+- Packaged to repository standards — frontmatter, runtime intake, Codex metadata, inventory and installer entries. Lab hostnames and addresses were replaced with neutral node names and RFC 5737 documentation addresses.
+
+Field-confirmed 2026-09-25 on a vSRX 24.4R2.21 hybrid pair (flat model, encrypted ICL): formation, planned failover and failback, and an unplanned uplink failure with BFD 500 ms × 3. The grid-model `vpn-profile` placement for an encrypted ICL on 26.x is not yet confirmed on a device; the skill defers to the device dry run there.
+
+**srx-ips** v0.1.1: Generalized the skill to work with any Junos MCP server that exposes core operational and configuration capabilities, not just Juniper's junos-mcp-server. The MCP server capabilities reference (`references/mcp-server-notes.md`) now documents both Juniper junos-mcp-server v1.1.1 and rust-junosmcp v0.19.0+ with a capability mapping table covering commit check, confirmed commits, change sets, and rollback. All skill text refers capability-first ("where the MCP server supports it") instead of naming one specific server. No change to device syntax, safety gates, or verification procedures.
+
+**Checks:** `check-skill-packages.py` now fails frontmatter values YAML cannot parse (an unquoted `: `, a ` #`, or a character that cannot start a plain scalar), with tests in `scripts/test-skill-packages.py`.
+
+## 1.8.0 — Pinned, checksum-verified installs
+
+The installer no longer installs whatever `main` currently holds. It installs a pinned release tag and verifies the skill payload before copying anything (#77).
+
+- **Pinned release ref.** `install.sh` defaults to this tag (`v1.8.0`) and refuses a moving ref (a branch or `HEAD`); `--ref` accepts `vX.Y.Z` tags only. The `curl | bash` install is no longer offered — clone the tag (or download its tarball) and run `./install.sh` from it.
+- **Checksum manifest.** `skills/CHECKSUMS.sha256` lists every file under `skills/`. The installer aborts on a missing or empty manifest, a malformed or `..`/absolute line, any hash mismatch, any file present but not listed (including a nested file named `CHECKSUMS.sha256`), and any symlink in the payload. Regenerate with `scripts/gen-checksums.py`; `scripts/check-checksums.py` verifies it in CI.
+- **Signatures are not implemented yet.** `FWSKILLS_REQUIRE_SIGNATURE=1` fails closed until they are; the manifest proves integrity against the tag, not authorship.
+- **srx-policy 1.3.0** covers Branch SRX after SRX345 validation (#73). `srx-ips` credits @jgrizzuti as an author (#74).
+- **Hygiene:** lab subnets replaced with RFC 5737 documentation addresses (#76); shared gitleaks vendor rules (#75); the secrets check now uses a shared gitleaks workflow (#80); links point at the upstream organization (#79).
+
 ## 1.7.0 — SRX IPS skill (draft)
 
 **srx-ips** v0.1.0, a draft skill merging IPS detection triage and custom signature authoring. Contributed by Javier Grizzuti (@jgrizzuti) in #70 from lab work against Juniper's junos-mcp-server, revised before merge, then merged into a single skill. The catalog gains one skill, from 30 to 31.
@@ -19,7 +60,7 @@ Hardware validation on 2026-09-23 (SRX345, Junos 21.2R3-S6.11) falsified three d
 - **No flow-type statement is required** — signatures with no explicit `ip` or `service` flow type committed and became active without it. The skill's flow-type requirement is removed.
 - **`direction` is mandatory** — every signature lacking it was rejected at commit with `direction statement missing`. The skill now requires `direction client-to-server` or `direction server-to-client` and explains the scoping semantics: client-to-server applies the pattern to the flow initiator's data, server-to-client to the responder's.
 
-Remaining `[unverified]` items are tracked as a vSRX validation gate in [TODO.md](./TODO.md).
+Remaining `[unverified]` items are tracked as a vSRX validation gate in [TODO.md](https://github.com/mechubsec/fwskillsshare/blob/main/TODO.md).
 
 ## 1.6.0 — cSRX container firewall deployment on Proxmox
 
@@ -60,7 +101,7 @@ answerable from the skill alone.
 `set system processes ntp enable` statement, and the correct way to read it.
 Backed by a live run across 18 reachable SRX/vSRX devices on Junos 24.2R2-S5.3
 (SRX345 hardware), 24.4R1.9, 25.4R1.12, and 26.2R1.7, documented in
-[the NTP process validation](https://github.com/fastrevmd-lab/fwskillsshare/blob/main/docs/skill-tests/2026-08-27-srx-ntp-process-enable-live-validation.md).
+[the NTP process validation](https://github.com/mechubsec/fwskillsshare/blob/main/docs/skill-tests/2026-08-27-srx-ntp-process-enable-live-validation.md).
 Read-only operational commands plus non-activating `commit check`; no
 configuration was activated on any device.
 

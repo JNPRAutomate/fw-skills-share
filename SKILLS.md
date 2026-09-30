@@ -2,7 +2,7 @@
 
 Extended notes on the compliance and SRX operational playbooks that have them — what
 each one covers, and when to reach for it. This is not the full inventory: the complete
-one-line catalog of all 31 skills across every family is the
+one-line catalog of all 32 skills across every family is the
 [Reference](./README.md#reference) section of the README, and every skill, listed here
 or not, documents itself in its own `SKILL.md`. For the review record, see
 [QUALITY.md](./QUALITY.md).
@@ -175,11 +175,15 @@ Key verification commands:
 ```text
 show chassis high-availability information
 show chassis high-availability services-redundancy-group <id>
-show security flow session | match "HA State|HA Wing State|Session ID|In:|Out:"
+show security flow session | match “HA State|HA Wing State|Session ID|In:|Out:”
 show bgp summary
 show bfd session
 show dhcp server binding routing-instance <RI>
 ```
+
+### srx-mnha-builder
+
+`srx-mnha-builder` builds a two-node SRX MNHA pair from standalone nodes step by step through a Junos MCP server (Juniper junos-mcp-server or rust-junosmcp). Covers mode selection, preflight discovery, pair sheet, staged config with pre-push checks and approval gates, HA-activation reboot handoff, formation verification, and failover test. Maps each workflow capability (dry run, push with commit confirmed where supported, confirm, diff, batch commands) to both MCP servers' tools.
 
 ### srx-autovpn-full-tunnel
 
