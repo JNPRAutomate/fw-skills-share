@@ -1,7 +1,7 @@
 ---
 name: srx-disa-stig-compliance
 description: Assess Juniper SRX evidence against the source-pinned DISA STIG and produce conservative rule-level findings. Use when reviewing NDM, ALG, IDPS, or VPN profiles, CAT I/II/III results, CKL preparation, evidence gaps, Junos compatibility, remediation plans, or assessor-ready SRX STIG reports. Parse raw configs first.
-version: 1.0.0
+version: 1.0.1
 author:
   - JNPRAutomate
   - Claude
@@ -27,6 +27,21 @@ metadata:
 ---
 
 # SRX DISA STIG Compliance
+
+## Contents
+
+- [Purpose and nonclaim](#purpose-and-nonclaim)
+- [Runtime intake](#runtime-intake)
+- [Source lock](#source-lock)
+- [Scope intake](#scope-intake)
+- [Profile routing](#profile-routing)
+- [Evidence contract](#evidence-contract)
+- [Status contract](#status-contract)
+- [Assessment workflow](#assessment-workflow)
+- [Compatibility and remediation boundary](#compatibility-and-remediation-boundary)
+- [Output contract](#output-contract)
+- [Common failure modes](#common-failure-modes)
+- [Pre-Return Self-Check](#pre-return-self-check)
 
 ## Purpose and nonclaim
 

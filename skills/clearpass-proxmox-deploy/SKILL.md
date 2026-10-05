@@ -1,7 +1,7 @@
 ---
 name: clearpass-proxmox-deploy
 description: Deploy, license, and validate HPE Aruba ClearPass Policy Manager 6.14 on Proxmox VE KVM. Use when sizing the appliance, driving the VGA-only first-boot wizard, fixing a GRUB menu that never boots, importing an HTTPS certificate, or using the REST API.
-version: 0.2.0
+version: 0.2.1
 author:
   - JNPRAutomate
   - Claude
@@ -27,6 +27,18 @@ metadata:
 ---
 
 # Deploying ClearPass Policy Manager on Proxmox VE
+
+## Contents
+
+- [Overview](#overview)
+- [Artifacts](#artifacts)
+- [Requirements](#requirements)
+- [Runtime intake](#runtime-intake)
+- [Mandatory pre-power-on gate](#mandatory-pre-power-on-gate)
+- [Procedure](#procedure)
+- [Gotchas (all hit in a real 6.14.0.371380 build)](#gotchas-all-hit-in-a-real-6140371380-build)
+- [Day-2 operations](#day-2-operations)
+- [Rollback](#rollback)
 
 > **STATUS: draft (v0.1.0).** The procedure below was executed end-to-end once,
 > on **CPPM 6.14.0.371380** as a **C1000V**, on Proxmox VE 9.2. Every claim in

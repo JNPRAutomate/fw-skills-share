@@ -1,7 +1,7 @@
 ---
 name: parsing-fortinet-configs
 description: Parse FortiGate and FortiOS full-configuration or backup exports into the shared firewall schema. Use when input contains config/edit/set/next/end blocks, VDOM, firewall policy or address, srcintf, dstintf, UTM profiles, or VIPs, including audit, conversion, diff, summary, and explanation tasks.
-version: 1.1.4
+version: 1.1.5
 author:
   - JNPRAutomate
   - Claude
@@ -32,6 +32,21 @@ metadata:
 ---
 
 # Parsing Fortinet FortiGate Configurations
+
+## Contents
+
+- [Overview](#overview)
+- [Scope and routing](#scope-and-routing)
+- [Runtime intake](#runtime-intake)
+- [Input Format](#input-format)
+- [Extraction Pipeline](#extraction-pipeline)
+- [Output Format](#output-format)
+- [Parser Quality Gates](#parser-quality-gates)
+- [Analysis Checks](#analysis-checks)
+- [Reference Files](#reference-files)
+- [Secret Handling](#secret-handling)
+- [Common Pitfalls](#common-pitfalls)
+- [Verification Checklist](#verification-checklist)
 
 ## Overview
 
@@ -240,47 +255,9 @@ FortiOS application IDs or names from the application control database.
 - `set application <list>` — space-separated application IDs or names
 - `set application-list <name>` — references an application control list profile (separate from direct app match)
 
-**Resolving FortiOS application names to canonical:**
+**Resolving FortiOS application names to canonical:** Map FortiOS application names (e.g., `HTTPS`, `SSH`, `RDP`) to canonical identifiers for cross-vendor conversion. The full canonical mapping table is in `references/parsing-patterns.md` "Canonical Application Mapping". When resolved, populate `apps` with `{ vendor_name: "HTTPS", canonical: "https", confidence: 1.0, category: "web" }`; keep `set service` matches in `services` separately. Unresolvable apps (numeric IDs without known name) → `confidence: 0.0`, preserve ID as `vendor_name`, warn.
 
-| FortiOS Name | Canonical App | Category |
-|-------------|---------------|----------|
-| `HTTPS` | `https` | web |
-| `HTTP` | `http` | web |
-| `SSH` | `ssh` | remote-access |
-| `RDP` | `rdp` | remote-access |
-| `DNS` | `dns` | network-mgmt |
-| `SMTP` | `smtp` | email |
-| `NTP` | `ntp` | network-mgmt |
-| `SNMP` | `snmp` | network-mgmt |
-| `FTP` | `ftp` | file-transfer |
-| `TFTP` | `tftp` | file-transfer |
-| `SIP` | `sip` | voip |
-| `LDAP` | `ldap` | auth |
-| `Kerberos` | `kerberos` | auth |
-| `SMB` | `smb` | file-transfer |
-| `MySQL` | `mysql` | database |
-| `MSSQL` | `mssql` | database |
-| `PostgreSQL` | `postgresql` | database |
-| `MongoDB` | `mongodb` | database |
-| `Zoom` | `zoom` | collaboration |
-| `Microsoft.Teams` | `ms-teams` | collaboration |
-| `Slack` | `slack` | collaboration |
-| `YouTube` | `youtube` | streaming |
-| `Netflix` | `netflix` | streaming |
-
-**On policy output:** When `set application` values are resolved, populate the policy's `apps` array
-with `{ vendor_name: "HTTPS", canonical: "https", confidence: 1.0, category: "web" }`.
-The `services` array keeps any `set service` matches separately.
-
-**Application control list profiles** (`config application list`) define grouped app-control
-policies. These do not map 1:1 to application groups — they are UTM profiles that filter
-applications by category, risk, or specific app ID. The schema has no `application-list`
-profile key — represent app-control presence via `security_services.app_id` (device-level)
-and store the profile reference in `security_profile_objects` and/or `metadata.warnings`.
-Do not try to decompose the list into individual apps.
-
-**Unresolvable apps:** FortiOS numeric app IDs without a known name mapping → set `confidence: 0.0`,
-preserve the ID as `vendor_name`, and warn.
+**Application control list profiles** (`config application list`) define grouped app-control policies. These do not map 1:1 to application groups — they are UTM profiles that filter applications by category, risk, or specific app ID. The schema has no `application-list` profile key — represent app-control presence via `security_services.app_id` (device-level) and store the profile reference in `security_profile_objects` and/or `metadata.warnings`. Do not try to decompose the list into individual apps.
 
 ### 9b. Application Groups
 

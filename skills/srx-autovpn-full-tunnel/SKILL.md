@@ -1,7 +1,7 @@
 ---
 name: srx-autovpn-full-tunnel
 description: Design, configure, audit, and troubleshoot Juniper SRX AutoVPN full-tunnel hub backhaul. Use when handling group-ike-id gateways, traffic selectors, ARI, shared st0, anti-recursion routes, source NAT, VPN hairpinning, NAT-T, or Junos 24.4R1+ PSK and 0.0.0.0/0 commit errors. Use ADVPN for direct spoke shortcuts.
-version: 1.1.2
+version: 1.1.3
 author:
   - JNPRAutomate
   - Claude
@@ -39,6 +39,24 @@ metadata:
 ---
 
 # SRX AutoVPN Full-Tunnel Backhaul
+
+## Contents
+
+- [Overview](#overview)
+- [Runtime intake](#runtime-intake)
+- [Scope and routing](#scope-and-routing)
+- [Topology Model](#topology-model)
+- [AutoVPN Mechanics](#autovpn-mechanics)
+- [Traffic Selectors — the core](#traffic-selectors--the-core)
+- [Routing Changes](#routing-changes)
+- [Hub NAT and Security Policies](#hub-nat-and-security-policies)
+- [Config Skeleton (hub, `set` format)](#config-skeleton-hub-set-format)
+- [Verification](#verification)
+- [Troubleshooting Matrix](#troubleshooting-matrix)
+- [Caveats and Tradeoffs](#caveats-and-tradeoffs)
+- [Choose This vs. Static Hub-Spoke](#choose-this-vs-static-hub-spoke)
+- [Verification Checklist](#verification-checklist)
+- [Source Notes](#source-notes)
 
 ## Overview
 

@@ -1,7 +1,7 @@
 ---
 name: iso27001-ngfw-compliance
 description: Map firewall controls, evidence, and gaps to ISO/IEC 27001:2022 and ISO 27002. Use when assessing ISMS scope, Annex A.8.20-A.8.23, secure configuration, logging, supplier access, change or incident evidence, the Statement of Applicability, audits, or corrective actions. Parse raw configs first.
-version: 0.1.2
+version: 0.1.3
 author:
   - JNPRAutomate
   - Claude
@@ -23,6 +23,18 @@ metadata:
 ---
 
 # ISO 27001 NGFW Compliance Research
+
+## Contents
+
+- [Overview](#overview)
+- [Scope and routing](#scope-and-routing)
+- [Runtime intake](#runtime-intake)
+- [Baseline Interpretation](#baseline-interpretation)
+- [Reference Material (load on demand)](#reference-material-load-on-demand)
+- [NGFW Feature Expectations](#ngfw-feature-expectations)
+- [Output Templates](#output-templates)
+- [Common Pitfalls](#common-pitfalls)
+- [Verification Checklist](#verification-checklist)
 
 ## Overview
 

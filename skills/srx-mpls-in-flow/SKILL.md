@@ -1,7 +1,7 @@
 ---
 name: srx-mpls-in-flow
 description: Design, configure, audit, and troubleshoot Juniper SRX MPLS L3VPN in flow mode. Use when handling Junos 24.2R1+ family mpls with inet or inet6 flow, secure PE or CPE, VRFs, LDP, MP-BGP, l3vpn vrf-group policy, VRF-to-zone mapping, VRF-aware NAT or AppID, PowerMode or RFP, MTU, labels, or policy matching.
-version: 1.0.3
+version: 1.0.4
 author:
   - JNPRAutomate
   - Claude
@@ -23,6 +23,24 @@ metadata:
 ---
 
 # SRX MPLS in Flow
+
+## Contents
+
+- [Overview](#overview)
+- [Scope and routing](#scope-and-routing)
+- [Runtime intake](#runtime-intake)
+- [Version and Platform Notes](#version-and-platform-notes)
+- [Forwarding Mode Baselines](#forwarding-mode-baselines)
+- [Minimal MPLS L3VPN Building Blocks](#minimal-mpls-l3vpn-building-blocks)
+- [Security Zones and Host-Inbound](#security-zones-and-host-inbound)
+- [Security Policy Models](#security-policy-models)
+- [VRF-Aware NAT and AppID](#vrf-aware-nat-and-appid)
+- [PowerMode / RFP Guidance](#powermode--rfp-guidance)
+- [Verification Workflow](#verification-workflow)
+- [Troubleshooting Matrix](#troubleshooting-matrix)
+- [Common Pitfalls](#common-pitfalls)
+- [Verification Checklist](#verification-checklist)
+- [Source Notes](#source-notes)
 
 ## Overview
 

@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+- **Publishing:** `evals/` is now published to the downstream distribution. The 1.10.0 note said evals are never published; they are still never installed, but `scripts/check-evals.py` ships with `scripts/` and `just lint` fails without them.
+
+## 1.10.0 — Skills restructured to authoring best practice; per-skill evals
+
+Every skill was reviewed against Anthropic's skill-authoring guidance, the agentskills.io specification and this repository's rules, and the gaps were fixed. No device syntax, safety gate or verification procedure changed meaning; every skill takes a patch version bump.
+
+- **Shorter SKILL.md bodies.** The six skills over the recommended 500 lines now sit under it, with detail moved one level down into `references/`: `csrx-proxmox-deploy` 597→455 (`references/gotchas.md`), `srx-ips` 580→482 (`references/commit-and-verification.md`), `sd-onprem-proxmox-deploy` 576→393 (procedure condensed to a staged outline that links the HOWTO, `references/gotchas.md`, new verification checklist), `srx-mnha` 528→459 (`references/srg-details.md`), `srx-dynamic-ip-feed` 512→359 (`references/tls-and-auth.md`), `srx-policy` 511→489 (`references/migration-workflow.md`). Approval, STOP and rollback rules stay inline.
+- **Contents lists.** Every SKILL.md and every reference file over 100 lines opens with a `## Contents` list of its sections; every anchor resolves. The shared `intermediate-schema.md` copies remain byte-identical.
+- **Parsers:** the Cisco, FortiGate, PAN-OS and SRX application-mapping tables move into each skill's `references/parsing-patterns.md`; `parsing-cisco-configs` gains a worked ACL-to-`services`/`apps` example; the Firepower collection guidance is condensed.
+- **firewall-config-conversion:** emitter references no longer point at repository paths of other skills, which do not resolve after a per-skill install; the needed syntax rules are stated inline.
+- **srx-mnha-builder:** MCP tools are tied to the Junos MCP server that provides them, with a CLI fallback when none is connected.
+- **cis-controls-ngfw-compliance:** the overview drops generic CIS background and states what the skill maps and cannot attest.
+- **Evals.** New top-level `evals/` with two or three fresh-session scenarios per skill (prompt, input, must, must not), derived from each skill's own guidance and including a safety or pitfall case. Dev-only: never installed or published. `scripts/check-evals.py` (in `just lint`, with tests in `just test`) requires an eval file for every skill. The scenarios are written but not yet run against an agent.
+
+### Also in this release
+
+- **srx-ips v0.1.2, srx-mnha-builder v0.2.1:** recognize junos-mcp-server with commit confirmed — the [`jgrizzuti/junos-mcp-server`](https://github.com/jgrizzuti/junos-mcp-server) fork, proposed upstream as [Juniper/junos-mcp-server#34](https://github.com/Juniper/junos-mcp-server/pull/34) — as a third server in the capability mapping. It is identified by its `confirm_commit` tool: `load_and_commit_config` always commit-checks first and takes `dry_run` and `confirm_timeout_mins`, `render_and_apply_j2_template` takes `confirm_timeout_mins`, and `confirm_commit` confirms. Both skills warn that re-sending `load_and_commit_config` does not confirm on that server (no diff, no commit). srx-mnha-builder pushes stages there with a 10-minute confirmed commit, both Stage 1 nodes inside one window, and lets an unverified stage roll back instead of pushing an undo. Field-confirmed 2026-10-02 on vSRX 24.4R2.21: dry run left no commit; an unconfirmed 2-minute commit rolled back at +2:45; `confirm_commit` kept the change past the window.
 - **Publishing:** never leave bytecode in the staged export tree; gate() now fails-closed on any .pyc or __pycache__.
 - **Publishing:** the JNPR downstream keeps its own secret-scan workflow; rust-junosmcp is named without its org.
 - **Contributors:** added top-level `CONTRIBUTORS.md` listing the maintainer and contributors, linked from README and CONTRIBUTING.

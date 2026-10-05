@@ -1,7 +1,7 @@
 ---
 name: soc2-ngfw-compliance
 description: Map firewall controls, evidence, and gaps to SOC 2 Trust Services Criteria. Use when assessing Type I or II, logical access, operations, change management, logging, vendor access, incident response, operating-effectiveness samples, or CC6.1, CC6.6, CC7.2, and CC8.1. Parse raw configs first.
-version: 0.1.2
+version: 0.1.3
 author:
   - JNPRAutomate
   - Claude
@@ -23,6 +23,18 @@ metadata:
 ---
 
 # SOC 2 NGFW Compliance Research
+
+## Contents
+
+- [Overview](#overview)
+- [Scope and routing](#scope-and-routing)
+- [Runtime intake](#runtime-intake)
+- [Baseline Interpretation](#baseline-interpretation)
+- [Reference Material (load on demand)](#reference-material-load-on-demand)
+- [NGFW Feature Expectations](#ngfw-feature-expectations)
+- [Output Templates](#output-templates)
+- [Common Pitfalls](#common-pitfalls)
+- [Verification Checklist](#verification-checklist)
 
 ## Overview
 

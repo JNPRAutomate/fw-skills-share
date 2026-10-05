@@ -1,7 +1,7 @@
 ---
 name: srx-syslog-logging
 description: Configure and troubleshoot Juniper SRX/vSRX logging to an external collector or SIEM. Use when system syslog or security logs are not arriving, when choosing between fxp0 and a revenue interface as the log source, when working with mgmt_junos, or when onboarding to Security Director Cloud. Covers the RE vs PFE logging split and why a non-default syslog port can silently fail.
-version: 1.1.0
+version: 1.1.1
 author:
   - JNPRAutomate
   - Claude
@@ -26,6 +26,22 @@ metadata:
 ---
 
 # SRX / vSRX logging to an external collector
+
+## Contents
+
+- [Overview](#overview)
+- [Runtime intake](#runtime-intake)
+- [The split that explains most failures](#the-split-that-explains-most-failures)
+- [The non-default port trap](#the-non-default-port-trap)
+- [Security log mode decides which knob applies](#security-log-mode-decides-which-knob-applies)
+- [Stream transport: UDP, TCP, TLS](#stream-transport-udp-tcp-tls)
+- [Checking delivery on the device](#checking-delivery-on-the-device)
+- [Diagnosing "logs are not arriving"](#diagnosing-logs-are-not-arriving)
+- [Red herrings](#red-herrings)
+- [Attribution: the hostname trap](#attribution-the-hostname-trap)
+- [Working configuration](#working-configuration)
+- [Device-write safety](#device-write-safety)
+- [Verification checklist](#verification-checklist)
 
 ## Overview
 

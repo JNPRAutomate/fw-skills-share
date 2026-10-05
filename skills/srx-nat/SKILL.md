@@ -1,7 +1,7 @@
 ---
 name: srx-nat
 description: Design, configure, audit, and troubleshoot Juniper SRX NAT. Use when handling source, destination, static, NAT64, DNS64, CGN, PBA, persistent or address-persistent NAT, hairpinning, proxy ARP, rule order, pool exhaustion, security nat configuration, show security nat output, sessions, or RT_NAT logs.
-version: 1.1.2
+version: 1.1.3
 author:
   - JNPRAutomate
   - Claude
@@ -54,6 +54,24 @@ metadata:
 ---
 
 # SRX NAT
+
+## Contents
+
+- [Overview](#overview)
+- [Scope and routing](#scope-and-routing)
+- [Runtime intake](#runtime-intake)
+- [NAT Processing Order](#nat-processing-order)
+- [Rule-Set Selection and Rule Order](#rule-set-selection-and-rule-order)
+- [Basic Source NAT Patterns](#basic-source-nat-patterns)
+- [Destination NAT and Static NAT Patterns](#destination-nat-and-static-nat-patterns)
+- [Proxy ARP Decision](#proxy-arp-decision)
+- [Hairpin NAT](#hairpin-nat)
+- [Advanced NAT](#advanced-nat)
+- [Verification Commands](#verification-commands)
+- [Troubleshooting Matrix](#troubleshooting-matrix)
+- [Common Pitfalls](#common-pitfalls)
+- [Verification Checklist](#verification-checklist)
+- [Source Notes](#source-notes)
 
 ## Overview
 

@@ -1,7 +1,7 @@
 ---
 name: firewall-best-practices-audit
 description: Audit normalized Cisco, Fortinet, Palo Alto, and Juniper firewall rulebases for security hygiene. Use when finding any-any, shadowed, redundant, or orphaned rules, missing deny or logging, exposed management, weak VPN crypto, hardening gaps, or unused objects. Parse raw configs first.
-version: 1.3.0
+version: 1.3.1
 author:
   - JNPRAutomate
   - Claude
@@ -14,6 +14,20 @@ metadata:
 ---
 
 # Firewall Best-Practices Audit
+
+## Contents
+
+- [Overview](#overview)
+- [Scope and routing](#scope-and-routing)
+- [Runtime intake](#runtime-intake)
+- [Policy population contract](#policy-population-contract)
+- [Input Handling](#input-handling)
+- [Severity & Confidence](#severity--confidence)
+- [Audit Workflow](#audit-workflow)
+- [Reference Material (load on demand)](#reference-material-load-on-demand)
+- [Output Templates](#output-templates)
+- [Common Pitfalls](#common-pitfalls)
+- [Verification Checklist](#verification-checklist)
 
 ## Overview
 

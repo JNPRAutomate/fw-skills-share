@@ -1,7 +1,7 @@
 ---
 name: firewall-config-diff
 description: Compare two parsed firewall configurations by semantic intent rather than text. Use when checking drift, HA parity, pre/post-change results, migration fidelity, or round-trip conversion. Parse raw configs first; use a text diff for literal line changes.
-version: 1.0.3
+version: 1.0.4
 author:
   - JNPRAutomate
   - Claude
@@ -14,6 +14,19 @@ metadata:
 ---
 
 # Firewall Config Diff
+
+## Contents
+
+- [Overview](#overview)
+- [Scope and routing](#scope-and-routing)
+- [Runtime intake](#runtime-intake)
+- [Input Handling](#input-handling)
+- [Semantic Identity](#semantic-identity)
+- [Diff Workflow](#diff-workflow)
+- [Output & Verdict](#output--verdict)
+- [Reference Material (load on demand)](#reference-material-load-on-demand)
+- [Common Pitfalls](#common-pitfalls)
+- [Verification Checklist](#verification-checklist)
 
 ## Overview
 

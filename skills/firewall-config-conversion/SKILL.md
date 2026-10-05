@@ -1,7 +1,7 @@
 ---
 name: firewall-config-conversion
 description: Convert parsed configurations among Cisco ASA/FTD, FortiGate, PAN-OS, and Juniper SRX with a fidelity report. Use when migrating objects, policy, NAT, zones, routing, HA, or VPN and producing target-native CLI with converted, caveat, and manual classifications. Parse raw configs first; output is not production-ready.
-version: 1.0.2
+version: 1.0.3
 author:
   - JNPRAutomate
   - Claude
@@ -14,6 +14,18 @@ metadata:
 ---
 
 # Firewall Config Conversion
+
+## Contents
+
+- [Overview](#overview)
+- [Scope and routing](#scope-and-routing)
+- [Runtime intake](#runtime-intake)
+- [Input Handling](#input-handling)
+- [Conversion Workflow](#conversion-workflow)
+- [Output & Fidelity Report](#output--fidelity-report)
+- [Reference Material (load on demand)](#reference-material-load-on-demand)
+- [Common Pitfalls](#common-pitfalls)
+- [Verification Checklist](#verification-checklist)
 
 ## Overview
 
