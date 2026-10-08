@@ -60,8 +60,7 @@ row for the reth.
 
 ### 2. Upstream LAG and MAC-move tolerance
 
-Why (per the `srx-mnha` skill, not a TechLibrary fact): in default-gateway mode the gateway MAC changes on failover (a virtual MAC per the skill; the lab VIP answered with the active node's physical MAC and relied on gratuitous ARP, L10). Adjacent switches
-with MAC-move limits, dynamic ARP inspection, port-security, storm control or
+Why (per the `srx-mnha` skill, not a TechLibrary fact): two behaviors. By default the VIP answers with the active node's physical MAC and failover is a gratuitous-ARP change to the new node's physical MAC (L10; nothing moves between ports), so stale ARP caches or blocked/ignored GARP break it. With `use-virtual-mac` a virtual MAC moves to the new active node's port, so switches with MAC-move limits, port-security, dynamic ARP inspection, storm control or
 EVPN/MLAG duplicate-MAC protection can block it and silently break failover.
 The `srx-mnha` skill's default-gateway section lists these checks.
 
@@ -139,7 +138,7 @@ uncertain and see `srx-mnha`.
 
 Ask:
 - "Dedicated ICL ports, or share revenue ports?" (dedicated LAG / single link / shared). Offer the freed fab NIC and, on vSRX, the freed former control NIC (`ge-0/0/0` after disable, L1) as ICL candidates; a lab or vSRX may use one link, with the E5 recommendation of more than one link stated as a caveat. A routed ICL needs addressing from the operator's IPAM and routing on that NIC; the loopback is optional on a single link (E5 recommends it).
-- "Encrypt the ICL? Recommended for production." (PKI / PSK / none). `none` is an accepted, recorded choice: it formed HA in the lab (L8), but Juniper's docs say "must" (E4); record `none (user-declined, contradicts E4 wording; works in lab L8)`. First check `show version` for the IKE package before offering encryption.
+- "Encrypt the ICL? Recommended for production." (PKI / PSK / none). `none` is an accepted, recorded choice: it formed HA in the lab (L8), but Juniper's docs say "must" (E4); record `none (user-declined, contradicts E4 wording; works in lab L8)`. First check `show version` for the IKE package and the platform before offering encryption: on a vSRX in default non-FIPS mode `ha-link-encryption` is rejected at commit check (L13), so offer `none` only.
 - If encrypting, "Certificates or pre-shared key?" (PKI, documented from Junos 22.3R1 (E5), needs a device certificate and enrolment this skill does not cover / pre-shared key, unsourced here: verify against TechLibrary before offering)
 - "Do you expect asymmetric flows, and do you want to evaluate an ICD? (ICD semantics are uncertain here; follow `srx-mnha`.)" (no / yes / unsure)
 
@@ -181,7 +180,7 @@ translation and output generation verbatim.
 | Segment / reth | Purpose | Mode | Upstream | SRG | Detection | Decision source |
 |---|---|---|---|---|---|---|
 | reth1 (trust) | Routers, OSPF | routed | per-node LAG ae1 | SRG2 | BFD | user-confirmed (round 1) |
-| reth2 (dmz) | Static-gateway servers | default-gateway | per-node LAG ae2, vMAC ok | SRG1 | IP monitoring | user-confirmed (round 3) |
+| reth2 (dmz) | Static-gateway servers | default-gateway | per-node LAG ae2, MAC move ok | SRG1 | IP monitoring | user-confirmed (round 3) |
 ```
 
 Per-node addresses, VIPs and retired segments are rows too: add a
