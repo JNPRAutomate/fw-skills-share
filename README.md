@@ -43,7 +43,7 @@ Skills are instructions your agent follows, and pasted configs are untrusted inp
 1. Clone a tagged release and run the installer:
 
 ```bash
-git clone --branch v1.12.0 --depth 1 https://github.com/JNPRAutomate/fw-skills-share.git
+git clone --branch v1.12.1 --depth 1 https://github.com/JNPRAutomate/fw-skills-share.git
 cd fw-skills-share
 ./install.sh
 ```
@@ -88,20 +88,20 @@ Normalize a vendor config into the shared intermediate schema. Everything else c
 
 Actionable Junos playbooks — commands, design guidance, verification, troubleshooting matrices, source attribution.
 
-- **[srx-policy](./skills/srx-policy/SKILL.md)** — *(v1.3.1)* Enforced global-policy output with explicit zone-pair opt-outs on 23.x+, now including Branch SRX300/SRX400 after hardware validation, AppID/AppFW, NGWF-first web filtering, SecIntel, ATP, hit-count troubleshooting.
+- **[srx-policy](./skills/srx-policy/SKILL.md)** — *(v1.3.2)* Enforced global-policy output with explicit zone-pair opt-outs on 23.x+, now including Branch SRX300/SRX400 after hardware validation, AppID/AppFW, NGWF-first web filtering, SecIntel, ATP, hit-count troubleshooting.
 - **[srx-nat](./skills/srx-nat/SKILL.md)** — *(v1.1.3)* Source/destination/static NAT, NAT64/DNS64, CGN/PBA, persistent NAT, hairpin, proxy-ARP, session verification.
-- **[srx-ips](./skills/srx-ips/SKILL.md)** — *(v0.1.2, draft)* IPS detection triage and custom signature authoring through a Junos MCP server: build the active rule table, read logs safely, monitor-to-enforce escalation behind an approval gate, and custom signature design with read-only coverage checks, context/direction/binding choice, false-positive-aware patterns, `commit check` validation, and monitor-mode proof before enforcement.
+- **[srx-ips](./skills/srx-ips/SKILL.md)** — *(v0.1.3, draft)* IPS detection triage and custom signature authoring through a Junos MCP server: build the active rule table, read logs safely, monitor-to-enforce escalation behind an approval gate, and custom signature design with read-only coverage checks, context/direction/binding choice, false-positive-aware patterns, `commit check` validation, and monitor-mode proof before enforcement.
 - **[srx-mnha](./skills/srx-mnha/SKILL.md)** — *(v1.3.8)* Multi-Node High Availability: routed/default-gateway/hybrid modes, SRGs, ICL/ICD, eBGP/BFD failover, VIPs, DHCP caveats.
 - **[srx-mnha-builder](./skills/srx-mnha-builder/SKILL.md)** — *(v0.2.6, draft)* Build a new two-node MNHA pair end-to-end through a Junos MCP server (Juniper junos-mcp-server or rust-junosmcp): routing, switching, or hybrid mode selection, dedicated or shared and optionally encrypted ICL, one pair sheet used to write per-node staged configs from a stage reference and checked against a pre-push checklist, with pre-computed undo files, device dry runs, per-stage approval gates, the user-performed HA-activation reboot, formation checks, eBGP signal-route export, and a role-consistency failover test. Works with either MCP server.
 - **[srx-cluster-to-mnha](./skills/srx-cluster-to-mnha/SKILL.md)** — *(v1.0.1)* Convert an existing SRX or vSRX chassis-cluster configuration into two node-local MNHA configs through an SRX-architect interview: cluster inventory, per-segment mode choice, SRG and ICL design, a fidelity report, and a cutover runbook. Offline only.
-- **[srx-advpn](./skills/srx-advpn/SKILL.md)** — *(v1.1.4)* Auto Discovery VPN dynamic spoke-to-spoke shortcuts, suggester/partner roles, multipoint st0, OSPF p2mp, the cert-auth requirement and the `No public key found` fix.
-- **[srx-autovpn-full-tunnel](./skills/srx-autovpn-full-tunnel/SKILL.md)** — *(v1.1.4)* AutoVPN hub-and-spoke full-tunnel backhaul: dynamic `group-ike-id`, traffic selectors + ARI, shared st0.0, anti-recursion route.
-- **[srx-ipsec-hub-spoke](./skills/srx-ipsec-hub-spoke/SKILL.md)** — *(v1.0.4)* Static point-to-point route-based IPsec hub-and-spoke, one explicit tunnel per spoke, hub source-NAT egress, spoke-to-spoke hairpin.
+- **[srx-advpn](./skills/srx-advpn/SKILL.md)** — *(v1.1.5)* Auto Discovery VPN dynamic spoke-to-spoke shortcuts, suggester/partner roles, multipoint st0, OSPF p2mp, the cert-auth requirement and the `No public key found` fix.
+- **[srx-autovpn-full-tunnel](./skills/srx-autovpn-full-tunnel/SKILL.md)** — *(v1.1.5)* AutoVPN hub-and-spoke full-tunnel backhaul: dynamic `group-ike-id`, traffic selectors + ARI, shared st0.0, anti-recursion route.
+- **[srx-ipsec-hub-spoke](./skills/srx-ipsec-hub-spoke/SKILL.md)** — *(v1.0.5)* Static point-to-point route-based IPsec hub-and-spoke, one explicit tunnel per spoke, hub source-NAT egress, spoke-to-spoke hairpin.
 - **[srx-chassis-cluster-proxmox](./skills/srx-chassis-cluster-proxmox/SKILL.md)** — *(v1.2.1)* Chassis cluster whose nodes are Proxmox VE guests: control/fabric bridge and VLAN design, the fabric-jumbo vs control-1500 MTU split, virtual NIC to Junos interface mapping, the reth virtual-MAC anti-spoof trap, cluster bootstrap and validation.
-- **[srx-mpls-in-flow](./skills/srx-mpls-in-flow/SKILL.md)** — *(v1.0.4)* MPLS L3VPN in flow mode (secure PE/CPE): decoupled `family mpls` packet-based with inet/inet6 flow-mode, VRF-aware policy/NAT/AppID.
+- **[srx-mpls-in-flow](./skills/srx-mpls-in-flow/SKILL.md)** — *(v1.0.5)* MPLS L3VPN in flow mode (secure PE/CPE): decoupled `family mpls` packet-based with inet/inet6 flow-mode, VRF-aware policy/NAT/AppID.
 - **[srx-dynamic-ip-feed](./skills/srx-dynamic-ip-feed/SKILL.md)** — *(v1.0.5)* Dynamic IP objects from HTTPS feed servers: `.tgz` bundles, cert validation, basic-auth / mTLS, `ipfd` log interpretation.
 - **[srx-license-signature-maintenance](./skills/srx-license-signature-maintenance/SKILL.md)** — *(v1.0.1)* AppID and IDP/IPS entitlement audit, license installation, and offline signature updates behind two independent approval gates, with secret-safe license handling, per-node chassis-cluster verification, pilot-then-batch rollout, and condition-based polling.
-- **[srx-initial-setup](./skills/srx-initial-setup/SKILL.md)** — *(v1.4.1)* First-time SRX bring-up: read-only entry-state assessment, Branch factory-default handling, management plane, interfaces and zones, starter screens, a minimal baseline policy, and an entitlement readout that routes onward. Every device write runs under a per-stage gate and confirmed commit.
+- **[srx-initial-setup](./skills/srx-initial-setup/SKILL.md)** — *(v1.4.2)* First-time SRX bring-up: read-only entry-state assessment, Branch factory-default handling, management plane, interfaces and zones, starter screens, a minimal baseline policy, and an entitlement readout that routes onward. Every device write runs under a per-stage gate and confirmed commit.
 - **[srx-syslog-logging](./skills/srx-syslog-logging/SKILL.md)** — *(v1.1.1)* External syslog and SIEM delivery: the Routing Engine vs PFE logging split, choosing a source interface per log type, the `fxp0` and `mgmt_junos` rules, Security Director Cloud onboarding, and why a non-default syslog port can be discarded silently.
 
 ### Cross-vendor tooling
