@@ -6,7 +6,7 @@ Maintained upstream at [mechubsec/fwskillsshare](https://github.com/mechubsec/fw
 
 ## Contributors
 
-- **Javier Grizzuti** ([@jgrizzuti](https://github.com/jgrizzuti)) — `srx-ips` (IPS triage and custom signatures, from upstream [#69](https://github.com/mechubsec/fwskillsshare/pull/69)/[#70](https://github.com/mechubsec/fwskillsshare/pull/70)) and `srx-mnha-builder` (MNHA pair builder, upstream [#83](https://github.com/mechubsec/fwskillsshare/pull/83))
+- **Javier Grizzuti** ([@jgrizzuti](https://github.com/jgrizzuti)) — `srx-ips` (IPS triage and custom signatures, from upstream [#69](https://github.com/mechubsec/fwskillsshare/pull/69)/[#70](https://github.com/mechubsec/fwskillsshare/pull/70)), `srx-mnha-builder` (MNHA pair builder, upstream [#83](https://github.com/mechubsec/fwskillsshare/pull/83)), and `srx-mnha-ipsec-builder` (IPsec from an MNHA hub to a spoke)
 
 ## How to contribute
 

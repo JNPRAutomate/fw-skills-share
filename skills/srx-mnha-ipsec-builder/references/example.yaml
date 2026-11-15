@@ -1,0 +1,30 @@
+# Worked example with documentation address ranges (RFC 5737) and neutral names. Replace every value.
+vpn:
+  name: EXAMPLE-MNHA-IPSEC
+  goal: least-planned-loss            # least-planned-loss | fastest-bgp-recovery | quiet-logs
+  ike: {policy: VPN-IKE-POL, dpd: {interval: 3, threshold: 3}}
+  ipsec: {pfs_group: group20, lifetime: 3600}
+  anchor: {ip: 192.0.2.1, lo0_unit: 10, zone: untrust, physical_ifl: ge-0/0/1.0}
+  srg: 1
+  tunnel: {st0_unit: 10, hub_ip: 10.250.0.1, spoke_ip: 10.250.0.2, prefix_len: 30, zone: vpn}
+  bgp: {hub_as: 65001, spoke_as: 65100, bfd: {min_interval: 300, multiplier: 3}}
+  hub_export_policy: MNHA-SRG1-EXPORT
+  subnets: {hub: ["198.51.100.0/24"], spoke: ["203.0.113.0/24"]}
+hub: {nodes: [HUB-B, HUB-A]}          # backup node first
+spoke:
+  router_name: BRANCH-1
+  ike_ip: 192.0.2.130
+  external_ifl: ge-0/0/1.0
+  external_zone: untrust
+  underlay_nexthop: 192.0.2.129
+  bypass_static: ["198.51.100.0/24"]
+address_book:
+  hub: [{name: SPOKE-LAN, prefix: 203.0.113.0/24}]
+  spoke: [{name: HUB-LAN, prefix: 198.51.100.0/24}, {name: SPOKE-LAN, prefix: 203.0.113.0/24}]
+policies:
+  hub:
+    - {name: ALLOW-SPOKE-TO-HUB, from_zone: vpn, to_zone: trust, source: SPOKE-LAN, destination: any, application: any, log: true}
+    - {name: ALLOW-HUB-TO-SPOKE, from_zone: trust, to_zone: vpn, source: any, destination: SPOKE-LAN, application: any, log: true}
+  spoke:
+    - {name: ALLOW-LAN-TO-HUB, from_zone: trust, to_zone: vpn, source: SPOKE-LAN, destination: HUB-LAN, application: any, log: true}
+    - {name: ALLOW-HUB-TO-LAN, from_zone: vpn, to_zone: trust, source: HUB-LAN, destination: SPOKE-LAN, application: any, log: true}

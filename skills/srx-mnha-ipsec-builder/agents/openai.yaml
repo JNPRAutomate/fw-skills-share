@@ -1,0 +1,4 @@
+interface:
+  display_name: "SRX MNHA IPsec Builder"
+  short_description: "Build and test IPsec from an SRX MNHA hub to a spoke"
+  default_prompt: "Use $srx-mnha-ipsec-builder to build and test an IPsec tunnel from this MNHA hub pair to a spoke SRX through the Junos MCP server."

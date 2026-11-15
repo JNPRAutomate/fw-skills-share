@@ -53,7 +53,7 @@ invoked, so what an installed-but-unused skill costs you is its description sitt
 in the discovery surface. How much that costs depends on the runtime and version —
 Codex 0.147.0 routes discovery through a dynamic selector and treats a flat
 concatenated list as a fallback, truncating metadata to fit its budget rather than
-failing — so the direct token cost is modest and not worth optimizing: all 33
+failing — so the direct token cost is modest and not worth optimizing: all 34
 descriptions together are on the order of ten thousand characters, and
 `scripts/check-skill-packages.py` reports the current figure rather than this page
 pinning a number that goes stale. The cost that matters is **selection**: the more

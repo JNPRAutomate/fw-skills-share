@@ -100,6 +100,11 @@
     "reviewed": false
   },
   {
+    "name": "srx-mnha-ipsec-builder",
+    "family": "srx",
+    "reviewed": false
+  },
+  {
     "name": "firewall-best-practices-audit",
     "family": "tooling",
     "reviewed": true

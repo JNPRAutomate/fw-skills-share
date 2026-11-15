@@ -2,7 +2,7 @@
 
 Extended notes on the compliance and SRX operational playbooks that have them — what
 each one covers, and when to reach for it. This is not the full inventory: the complete
-one-line catalog of all 33 skills across every family is the
+one-line catalog of all 34 skills across every family is the
 [Reference](./README.md#reference) section of the README, and every skill, listed here
 or not, documents itself in its own `SKILL.md`. For the review record, see
 [QUALITY.md](./QUALITY.md).
@@ -188,6 +188,10 @@ show dhcp server binding routing-instance <RI>
 ### srx-cluster-to-mnha
 
 `srx-cluster-to-mnha` converts an existing SRX or vSRX chassis-cluster configuration into two node-local MNHA configurations. It inventories the cluster, interviews the user as an SRX architect (per-segment mode, SRG layout, failure detection, ICL), and produces a classified fidelity report and cutover runbook. Offline only; live push belongs to `srx-mnha-builder`.
+
+### srx-mnha-ipsec-builder
+
+`srx-mnha-ipsec-builder` builds one route-based IPsec tunnel from a formed MNHA pair, anchored on a floating loopback listed in an SRG1+ with `managed-services ipsec`, to a spoke SRX through a Junos MCP server, with eBGP and BFD over the tunnel and floating statics. It asks the optimisation goal first and maps it to `process-packet-on-backup`, floating statics and spoke anti-replay, writes hub and spoke configs from a placeholder block reference checked by a pre-push checklist, pushes with commit confirmed behind approval gates (hub backup node first), cuts over from a bypass route, and measures planned and unplanned failover in both directions as % change against a baseline the user measures. Building the pair belongs to `srx-mnha-builder`; MNHA IPsec design background lives in `srx-mnha`.
 
 ### srx-autovpn-full-tunnel
 

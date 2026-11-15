@@ -3,8 +3,8 @@
 <p align="center"><strong>Firewall skills for network &amp; security engineers</strong></p>
 
 <p align="center">
-  <img alt="skills" src="https://img.shields.io/badge/skills-33-informational">
-  <img alt="reviewed" src="https://img.shields.io/badge/reviewed-26%2F33-informational">
+  <img alt="skills" src="https://img.shields.io/badge/skills-34-informational">
+  <img alt="reviewed" src="https://img.shields.io/badge/reviewed-26%2F34-informational">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-informational">
   <img alt="vendors" src="https://img.shields.io/badge/vendors-Cisco%20%C2%B7%20Fortinet%20%C2%B7%20Palo%20Alto%20%C2%B7%20Juniper%20%C2%B7%20HPE%20Aruba-informational">
 </p>
@@ -13,7 +13,7 @@ Agent skills for the firewall work you actually do — parsing, auditing, conver
 
 Firewall work is unforgiving. A confidently wrong `access-list` line, a Junos stanza that won't commit, a compliance claim you can't back up in an audit — these aren't cosmetic. Coding agents are astonishingly good at producing *plausible* firewall config and astonishingly bad at knowing when it's wrong.
 
-These skills exist to close that gap. They pin the agent to vendor syntax that's been checked against real devices, to one shared schema so four vendors speak the same language, and to control-to-evidence maps that don't overpromise. They're small, self-contained, and composable — copy the two you need or all 33. Hack around with them. Make them your own.
+These skills exist to close that gap. They pin the agent to vendor syntax that's been checked against real devices, to one shared schema so four vendors speak the same language, and to control-to-evidence maps that don't overpromise. They're small, self-contained, and composable — copy the two you need or all 34. Hack around with them. Make them your own.
 
 > **Community project.** Not affiliated with, endorsed by, or supported by Cisco, Fortinet, or Palo Alto Networks. See [License and Provenance](#license-and-provenance) for the full notice and the trademark disclaimer.
 
@@ -43,7 +43,7 @@ Skills are instructions your agent follows, and pasted configs are untrusted inp
 1. Clone a tagged release and run the installer:
 
 ```bash
-git clone --branch v1.12.1 --depth 1 https://github.com/JNPRAutomate/fw-skills-share.git
+git clone --branch v1.13.0 --depth 1 https://github.com/JNPRAutomate/fw-skills-share.git
 cd fw-skills-share
 ./install.sh
 ```
@@ -68,7 +68,7 @@ Four failure modes of agents on firewalls — invented CLI, vendor dialects, unf
 
 ## Reference
 
-**33 skills** across five families. All of them are **model-invoked** — the agent reaches for them automatically when it sees vendor keywords, an SRX operational topic, a Security Director On-Prem or ClearPass deployment request, or compliance language in your message or a pasted config. 26 of the 33 packages have completed the review record below; `clearpass-proxmox-deploy`, `csrx-proxmox-deploy`, `srx-ips`, `srx-mnha-builder`, and `srx-cluster-to-mnha` ship as drafts, while `parsing-firepower-configs` and `srx-syslog-logging` have not yet been through the two-stage review. Invoke one explicitly as `/srx-nat` in Claude Code or Hermes, or `$srx-nat` in Codex.
+**34 skills** across five families. All of them are **model-invoked** — the agent reaches for them automatically when it sees vendor keywords, an SRX operational topic, a Security Director On-Prem or ClearPass deployment request, or compliance language in your message or a pasted config. 26 of the 34 packages have completed the review record below; `clearpass-proxmox-deploy`, `csrx-proxmox-deploy`, `srx-ips`, `srx-mnha-builder`, `srx-mnha-ipsec-builder`, and `srx-cluster-to-mnha` ship as drafts, while `parsing-firepower-configs` and `srx-syslog-logging` have not yet been through the two-stage review. Invoke one explicitly as `/srx-nat` in Claude Code or Hermes, or `$srx-nat` in Codex.
 
 Version numbers: v0.x = draft; v1.0.0 and later = validated at least once (homelab run or completed review). Verified a draft? See [Skill versions and drafts](https://github.com/mechubsec/fwskillsshare/blob/main/CONTRIBUTING.md#skill-versions-and-drafts).
 
@@ -88,18 +88,19 @@ Normalize a vendor config into the shared intermediate schema. Everything else c
 
 Actionable Junos playbooks — commands, design guidance, verification, troubleshooting matrices, source attribution.
 
-- **[srx-policy](./skills/srx-policy/SKILL.md)** — *(v1.3.2)* Enforced global-policy output with explicit zone-pair opt-outs on 23.x+, now including Branch SRX300/SRX400 after hardware validation, AppID/AppFW, NGWF-first web filtering, SecIntel, ATP, hit-count troubleshooting.
-- **[srx-nat](./skills/srx-nat/SKILL.md)** — *(v1.1.3)* Source/destination/static NAT, NAT64/DNS64, CGN/PBA, persistent NAT, hairpin, proxy-ARP, session verification.
-- **[srx-ips](./skills/srx-ips/SKILL.md)** — *(v0.1.3, draft)* IPS detection triage and custom signature authoring through a Junos MCP server: build the active rule table, read logs safely, monitor-to-enforce escalation behind an approval gate, and custom signature design with read-only coverage checks, context/direction/binding choice, false-positive-aware patterns, `commit check` validation, and monitor-mode proof before enforcement.
+- **[srx-policy](./skills/srx-policy/SKILL.md)** — *(v1.3.3)* Enforced global-policy output with explicit zone-pair opt-outs on 23.x+, now including Branch SRX300/SRX400 after hardware validation, AppID/AppFW, NGWF-first web filtering, SecIntel, ATP, hit-count troubleshooting.
+- **[srx-nat](./skills/srx-nat/SKILL.md)** — *(v1.1.4)* Source/destination/static NAT, NAT64/DNS64, CGN/PBA, persistent NAT, hairpin, proxy-ARP, session verification.
+- **[srx-ips](./skills/srx-ips/SKILL.md)** — *(v0.1.5, draft)* IPS detection triage and custom signature authoring through a Junos MCP server: build the active rule table, read logs safely, monitor-to-enforce escalation behind an approval gate, and custom signature design with read-only coverage checks, context/direction/binding choice, false-positive-aware patterns, `commit check` validation, and monitor-mode proof before enforcement.
 - **[srx-mnha](./skills/srx-mnha/SKILL.md)** — *(v1.3.8)* Multi-Node High Availability: routed/default-gateway/hybrid modes, SRGs, ICL/ICD, eBGP/BFD failover, VIPs, DHCP caveats.
-- **[srx-mnha-builder](./skills/srx-mnha-builder/SKILL.md)** — *(v0.2.6, draft)* Build a new two-node MNHA pair end-to-end through a Junos MCP server (Juniper junos-mcp-server or rust-junosmcp): routing, switching, or hybrid mode selection, dedicated or shared and optionally encrypted ICL, one pair sheet used to write per-node staged configs from a stage reference and checked against a pre-push checklist, with pre-computed undo files, device dry runs, per-stage approval gates, the user-performed HA-activation reboot, formation checks, eBGP signal-route export, and a role-consistency failover test. Works with either MCP server.
+- **[srx-mnha-builder](./skills/srx-mnha-builder/SKILL.md)** — *(v0.2.7, draft)* Build a new two-node MNHA pair end-to-end through a Junos MCP server (Juniper junos-mcp-server or rust-junosmcp): routing, switching, or hybrid mode selection, dedicated or shared and optionally encrypted ICL, one pair sheet used to write per-node staged configs from a stage reference and checked against a pre-push checklist, with pre-computed undo files, device dry runs, per-stage approval gates, the user-performed HA-activation reboot, formation checks, eBGP signal-route export, and a role-consistency failover test. Works with either MCP server.
 - **[srx-cluster-to-mnha](./skills/srx-cluster-to-mnha/SKILL.md)** — *(v1.0.1)* Convert an existing SRX or vSRX chassis-cluster configuration into two node-local MNHA configs through an SRX-architect interview: cluster inventory, per-segment mode choice, SRG and ICL design, a fidelity report, and a cutover runbook. Offline only.
+- **[srx-mnha-ipsec-builder](./skills/srx-mnha-ipsec-builder/SKILL.md)** — *(v0.1.2, draft)* Build a route-based IPsec VPN from an MNHA hub, anchored on a floating loopback in SRG1+, to a spoke SRX through a Junos MCP server: goal choice (least planned-failover loss, fastest BGP/BFD recovery, or quiet logs) mapped to `process-packet-on-backup`, floating statics and anti-replay; a VPN sheet used to write hub and spoke configs from a block reference and checked against a pre-push checklist, with undo files, device dry runs, commit-confirmed pushes behind approval gates, bypass-route cutover, and bidirectional planned and unplanned failover tests reported as % change against your own baseline.
 - **[srx-advpn](./skills/srx-advpn/SKILL.md)** — *(v1.1.5)* Auto Discovery VPN dynamic spoke-to-spoke shortcuts, suggester/partner roles, multipoint st0, OSPF p2mp, the cert-auth requirement and the `No public key found` fix.
 - **[srx-autovpn-full-tunnel](./skills/srx-autovpn-full-tunnel/SKILL.md)** — *(v1.1.5)* AutoVPN hub-and-spoke full-tunnel backhaul: dynamic `group-ike-id`, traffic selectors + ARI, shared st0.0, anti-recursion route.
 - **[srx-ipsec-hub-spoke](./skills/srx-ipsec-hub-spoke/SKILL.md)** — *(v1.0.5)* Static point-to-point route-based IPsec hub-and-spoke, one explicit tunnel per spoke, hub source-NAT egress, spoke-to-spoke hairpin.
 - **[srx-chassis-cluster-proxmox](./skills/srx-chassis-cluster-proxmox/SKILL.md)** — *(v1.2.1)* Chassis cluster whose nodes are Proxmox VE guests: control/fabric bridge and VLAN design, the fabric-jumbo vs control-1500 MTU split, virtual NIC to Junos interface mapping, the reth virtual-MAC anti-spoof trap, cluster bootstrap and validation.
 - **[srx-mpls-in-flow](./skills/srx-mpls-in-flow/SKILL.md)** — *(v1.0.5)* MPLS L3VPN in flow mode (secure PE/CPE): decoupled `family mpls` packet-based with inet/inet6 flow-mode, VRF-aware policy/NAT/AppID.
-- **[srx-dynamic-ip-feed](./skills/srx-dynamic-ip-feed/SKILL.md)** — *(v1.0.5)* Dynamic IP objects from HTTPS feed servers: `.tgz` bundles, cert validation, basic-auth / mTLS, `ipfd` log interpretation.
+- **[srx-dynamic-ip-feed](./skills/srx-dynamic-ip-feed/SKILL.md)** — *(v1.1.0)* Dynamic IP objects from HTTPS feed servers: `.tgz` bundles, cert validation, basic-auth / mTLS, `ipfd` log interpretation.
 - **[srx-license-signature-maintenance](./skills/srx-license-signature-maintenance/SKILL.md)** — *(v1.0.1)* AppID and IDP/IPS entitlement audit, license installation, and offline signature updates behind two independent approval gates, with secret-safe license handling, per-node chassis-cluster verification, pilot-then-batch rollout, and condition-based polling.
 - **[srx-initial-setup](./skills/srx-initial-setup/SKILL.md)** — *(v1.4.2)* First-time SRX bring-up: read-only entry-state assessment, Branch factory-default handling, management plane, interfaces and zones, starter screens, a minimal baseline policy, and an entitlement readout that routes onward. Every device write runs under a per-stage gate and confirmed commit.
 - **[srx-syslog-logging](./skills/srx-syslog-logging/SKILL.md)** — *(v1.1.1)* External syslog and SIEM delivery: the Routing Engine vs PFE logging split, choosing a source interface per log type, the `fxp0` and `mgmt_junos` rules, Security Director Cloud onboarding, and why a non-default syslog port can be discarded silently.
@@ -136,8 +137,8 @@ Install with `--family deployment`.
 
 ## Quality and Review
 
-**26 of the 33 skills** have passed independent technical review. The exceptions
-are `clearpass-proxmox-deploy`, `csrx-proxmox-deploy`, `srx-ips`, and `srx-mnha-builder`, which ship as drafts,
+**26 of the 34 skills** have passed independent technical review. The exceptions
+are `clearpass-proxmox-deploy`, `csrx-proxmox-deploy`, `srx-ips`, `srx-mnha-builder`, and `srx-mnha-ipsec-builder`, which ship as drafts,
 while `parsing-firepower-configs`, `srx-syslog-logging`, and `srx-cluster-to-mnha` have not yet been through
 the two-stage review. Four review rounds, the
 live-device validation runs, what those runs falsified, and the per-family table

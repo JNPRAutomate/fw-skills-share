@@ -1,0 +1,32 @@
+# MNHA hub <-> spoke IPsec VPN sheet. Fill every <FILL>. ASK EVERY BLOCK ON EVERY RUN (never reuse silently).
+vpn:
+  name: <FILL>
+  goal: <FILL>                 # least-planned-loss | fastest-bgp-recovery | quiet-logs   (see SKILL.md Step 1 and config-blocks.md, Goal resolution)
+  # optional overrides of what the goal implies: process_packet_on_backup, floating_statics, spoke_anti_replay
+  ike:
+    policy: VPN-IKE-POL        # proposal + policy + PSK are set by the USER on every device first; never in this sheet
+    dpd: {interval: 3, threshold: 3}
+    # allow_any: false         # true writes ALLOW-IKE-ESP as any/any (Needs Acknowledgment)
+  ipsec: {pfs_group: group20, lifetime: 3600}       # ESP AES-256-GCM
+  anchor:                      # floating IKE endpoint, identical on both hub nodes
+    ip: <FILL>                 # /32 on lo0.<unit>
+    lo0_unit: <FILL>
+    zone: <FILL>               # MUST be the zone of the physical interface that receives IKE/ESP
+    physical_ifl: <FILL>       # e.g. ge-0/0/1.0
+  srg: 1                       # SRG1+ (never SRG0)
+  tunnel: {st0_unit: <FILL>, hub_ip: <FILL>, spoke_ip: <FILL>, prefix_len: 30, zone: <FILL>}
+  bgp: {hub_as: <FILL>, spoke_as: <FILL>, bfd: {min_interval: 300, multiplier: 3}}
+  hub_export_policy: <FILL>    # EXISTING MNHA export policy (active/backup terms) of the pair
+  subnets: {hub: [<FILL>], spoke: [<FILL>]}
+hub:
+  nodes: [<FILL>, <FILL>]      # exact names from get_router_list; both MNHA nodes, identical config
+spoke:
+  router_name: <FILL>
+  ike_ip: <FILL>               # spoke's own IKE source address
+  external_ifl: <FILL>
+  external_zone: <FILL>
+  underlay_nexthop: <FILL>     # next hop toward the hub anchor (static /32 route)
+  bypass_static: []            # pre-tunnel routes to the hub subnets; if a prefix equals a hub subnet, cutover deletes only that next-hop
+address_book: {hub: [], spoke: []}      # [{name: X, prefix: 10.0.0.1/32}]
+policies: {hub: [], spoke: []}          # [{name: P, from_zone: z, to_zone: z, source: A, destination: B, application: any, log: true}]
+# names: {}                    # optional; rename defaults from config-blocks.md on collision
